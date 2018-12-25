@@ -10,7 +10,7 @@ const entityName = 'weather';
 })
 export class WeatherService extends DefautService {
 
-  // Récupère la météo pour une commune
+  // Récupère la météo pour une commune donnée en paramètre
   getfindByCity(city: string, options?: HttpParamsOptions): Observable<any> {
     return this.getOne(entityName, city);
   }
