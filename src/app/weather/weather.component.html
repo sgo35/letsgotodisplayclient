@@ -1,5 +1,9 @@
 <p>
   weather works!
 </p>
-
-{{data | json}}
+<div *ngIf="data">
+  <h2>
+    Météo de {{ data.city }}
+  </h2>
+  {{ data | json }}
+</div>

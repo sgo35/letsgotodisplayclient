@@ -3,6 +3,7 @@ import { DefautService } from '../defaut.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpParamsOptions } from '@angular/common/http/src/params';
+import { Weather } from './weather.interface';
 
 const entityName = 'weather';
 @Injectable({
@@ -11,7 +12,7 @@ const entityName = 'weather';
 export class WeatherService extends DefautService {
 
   // Récupère la météo pour une commune donnée en paramètre
-  getfindByCity(city: string, options?: HttpParamsOptions): Observable<any> {
+  getfindByCity(city: string, options?: HttpParamsOptions): Observable<Weather> {
     return this.getOne(entityName, city);
   }
 
