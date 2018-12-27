@@ -1,9 +1,21 @@
-<p>
-  weather works!
-</p>
-<div *ngIf="data">
+<div *ngIf="data"
+  class="weather">
   <h2>
-    Météo de {{ data.city }}
+    Météo de {{ data.city.name }}
   </h2>
-  {{ data | json }}
+  <!-- {{ data | json }} -->
+  <ul>
+    <li *ngFor="let item of data.list"
+      class="middle">
+      {{ getDateTime(item.dt) | date: 'EEEE d MMMM \' à \'h\'h\'' }}
+      <!-- {{ getDateTime(item.dt) | date: 'EEEE d MMMM \' à \'hh\'h\'mm' }} -->
+      <!-- <span *ngIf="item?.weather?.length > 0">
+        {{ item.weather[0].main }} - {{ getWeatherIcon(item.weather[0]) }}
+      </span> -->
+      <img *ngIf="item?.weather?.length > 0"
+        src="{{ getWeatherIcon(item.weather[0]) }}"
+        alt="{{ item.weather[0].main }}"
+        title="{{ item.weather[0].description }}" />
+    </li>
+  </ul>
 </div>

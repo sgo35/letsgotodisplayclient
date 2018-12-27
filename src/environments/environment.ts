@@ -6,7 +6,7 @@ declare const require: any;
 export const environment = {
   production: false,
   version: require('../../package.json').version,
-  engineRestUrl: 'api/'
+  apiRestUrl: 'http://localhost:8080/api'
 };
 
 /*

@@ -1,4 +1,4 @@
-export interface Weather {
+export interface ApiWeather {
     cod: string;
     message: number;
     cnt: number;
