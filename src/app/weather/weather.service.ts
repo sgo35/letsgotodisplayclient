@@ -6,6 +6,7 @@ import { AbstractTypedRestService } from '../services/abstractTypedRest.service'
 import { Restangular } from 'ngx-restangular';
 import { ImagePixabay } from '../interfaces/imagePixabay.interface';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +21,7 @@ export class WeatherService extends AbstractTypedRestService<ApiWeather> {
 
   // Récupère la météo pour une commune donnée en paramètre
   getfindByCity(cityName: string, options?: HttpParamsOptions): Observable<ApiWeather> {
-    return this.getRestangular().one(this.getEntityName()).one(cityName).get(options);
+    return this.getRestangular().one(this.getEntityName()).one(encodeURI(cityName)).get(options);
   }
 
   async getWeatherIcon(weather: Weather) {

@@ -6,7 +6,6 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { City } from '../interfaces/city.interface';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import 'rxjs/add/operator/debounceTime';
 
 const uri_base = 'http://openweathermap.org';
 const uri_cities = '../../assets/json/city.list.json';
@@ -20,7 +19,7 @@ export class WeatherComponent implements OnInit {
 
   data: ApiWeather;
   cities: Array<City>;
-  city: City;
+  city: string;
 
   searchCityControl: FormControl = new FormControl();
 
@@ -35,24 +34,29 @@ export class WeatherComponent implements OnInit {
   }
 
   init() {
-    this.httpService.get(uri_cities).subscribe(
-      data => {
-        this.cities = data as City [];	 // FILL THE ARRAY WITH DATA.
-        console.log('init cities', this.cities);
-        this.searchCityControl.valueChanges
-          .debounceTime(400) 
-          .subscribe(keyword => {
-            return this.cities ? this.cities.filter(c => c.name.toLowerCase().startsWith(keyword.toLowerCase()) : undefined)
-          };
-      },
-      (err: HttpErrorResponse) => {
-        console.log (err.message);
-      }
-    );
+    // this.httpService.get(uri_cities).subscribe(
+    //   data => {
+    //     this.cities = data as City [];	 // FILL THE ARRAY WITH DATA.
+    //     console.log('init cities', this.cities);
+    //     // .debounceTime(400) 
+    //     this.searchCityControl.valueChanges
+    //       .subscribe(keyword => {
+    //         return this.cities 
+    //           ? this.cities.filter(c => c.name.toLowerCase().startsWith(keyword.toLowerCase())) 
+    //           : undefined
+    //         }
+    //       );
+    //   },
+    //   (err: HttpErrorResponse) => {
+    //     console.log (err.message);
+    //   }
+    // );
+    this.city = 'Rennes'
+    this.searchWeatherByCity();
   }
 
-  searchWeatherByCity(city: City) {
-    this.weatherService.getfindByCity(city.name).subscribe(
+  searchWeatherByCity(cityName?: string) {
+    this.weatherService.getfindByCity(cityName ? cityName : this.city).subscribe(
       data => {
         console.log('data', data);
         this.data = data;
@@ -98,5 +102,8 @@ isDateDiff(dt_before: number, dt_current: number): boolean {
     return response && response.hits && response.hits.length > 0 ? response.hits[0].largeImageURL : '';
   }
 
-
+  onSubmit() {
+    this.searchWeatherByCity();
+    console.log('searchWeatherByCity', this.city); 
+  }
 }
