@@ -9,7 +9,7 @@ import { SearchParam } from '../interfaces/searchParam';
 export abstract class AbstractTypedRestService<T extends any> {
 
   @Inject(UtilService)
-  private utilsService: UtilService;
+  protected utilsService: UtilService;
 
   constructor(private restangular: Restangular) {
   }

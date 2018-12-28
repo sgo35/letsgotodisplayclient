@@ -1,22 +1,11 @@
+import { City } from '../interfaces/city.interface';
+
 export interface ApiWeather {
     cod: string;
     message: number;
     cnt: number;
     list: List[];
     city: City;
-}
-
-export interface City {
-    id: number;
-    name: string;
-    coord: Coord;
-    country: string;
-    population: number;
-}
-
-export interface Coord {
-    lat: number;
-    lon: number;
 }
 
 export interface List {

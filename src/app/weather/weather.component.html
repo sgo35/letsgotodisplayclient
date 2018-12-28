@@ -1,21 +1,52 @@
-<div *ngIf="data"
+<div 
   class="weather">
   <h2>
     Météo de {{ data.city.name }}
   </h2>
+  <div *ngIf="cities?.lenght > 0">
+    <mat-form-field>
+      <input type="text" matInput [formControl]="searchCityControl" [matAutocomplete]="auto">
+    </mat-form-field>
+    
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let city of cities" [value]="city">{{ city.name }}, [{{ city.country }}]</mat-option>
+    </mat-autocomplete>
+  <div>
   <!-- {{ data | json }} -->
-  <ul>
-    <li *ngFor="let item of data.list"
-      class="middle">
-      {{ getDateTime(item.dt) | date: 'EEEE d MMMM \' à \'h\'h\'' }}
-      <!-- {{ getDateTime(item.dt) | date: 'EEEE d MMMM \' à \'hh\'h\'mm' }} -->
-      <!-- <span *ngIf="item?.weather?.length > 0">
-        {{ item.weather[0].main }} - {{ getWeatherIcon(item.weather[0]) }}
-      </span> -->
+  <div  *ngIf="data; else noResult" >
+    <div *ngFor="let item of data.list; let i=index">
+      <h1 *ngIf="i === 0 || isDateDiff(data.list[i-1].dt, item.dt)">{{ getDateTime(item.dt) | date: 'EEEE d MMMM' }}</h1>
+      <mat-card  class="flex-container">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image" [style.background-image]="getWeatherIcon(item.weather[0])"></div>
+          <!-- <mat-card-title><h1>{{ getDateTime(item.dt) | date: 'EEEE d MMMM \' à \'H\'h\'' }}</h1></mat-card-title> -->
+          <mat-card-title><h1>{{ getDateTime(item.dt) | date: 'H\'h\'' }}</h1></mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img mat-card-image src="{{ getImageByWeather(item.weather[0]) }}" alt="Photo of a Shiba Inu"> -->
+        <mat-card-content>
+          <h4>
+            Température : {{ item.main.temp }}°C
+          </h4>
+          <p>min : {{ item.main.temp_min }}°C | max : {{ item.main.temp_max }}°C</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Détail...</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <ng-template #noResult>
+    Sélectionner une commune...
+  </ng-template>
+
+  <!-- <ul class="middle">
+    <li *ngFor="let item of data.list; let i=index">
+      {{ getDateTime(item.dt) | date: 'EEEE d MMMM \' à \'H\'h\'' }}
       <img *ngIf="item?.weather?.length > 0"
         src="{{ getWeatherIcon(item.weather[0]) }}"
         alt="{{ item.weather[0].main }}"
         title="{{ item.weather[0].description }}" />
     </li>
-  </ul>
+  </ul> -->
 </div>
