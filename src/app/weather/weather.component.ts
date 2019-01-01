@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { WeatherService } from './weather.service';
 import { Weather, ApiWeather } from './weather.interface';
 import { UtilService } from '../services/util.service';
@@ -19,13 +19,16 @@ export class WeatherComponent implements OnInit {
 
   data: ApiWeather;
   cities: Array<City>;
-  city: string;
+  _city: string;
+  @Input() set city(city: string) {
+    this._city = city;
+    this.searchWeatherByCity();
+  }
+  get city() { return this._city; }
 
   searchCityControl: FormControl = new FormControl();
 
   constructor(private weatherService: WeatherService
-    , private httpService: HttpClient
-    , private utilsService: UtilService
     , private sanitization: DomSanitizer
     ) { }
 
@@ -38,11 +41,11 @@ export class WeatherComponent implements OnInit {
     //   data => {
     //     this.cities = data as City [];	 // FILL THE ARRAY WITH DATA.
     //     console.log('init cities', this.cities);
-    //     // .debounceTime(400) 
+    //     // .debounceTime(400)
     //     this.searchCityControl.valueChanges
     //       .subscribe(keyword => {
-    //         return this.cities 
-    //           ? this.cities.filter(c => c.name.toLowerCase().startsWith(keyword.toLowerCase())) 
+    //         return this.cities
+    //           ? this.cities.filter(c => c.name.toLowerCase().startsWith(keyword.toLowerCase()))
     //           : undefined
     //         }
     //       );
@@ -51,7 +54,7 @@ export class WeatherComponent implements OnInit {
     //     console.log (err.message);
     //   }
     // );
-    this.city = 'Rennes'
+    // this.city = 'Rennes';
     this.searchWeatherByCity();
   }
 
@@ -104,6 +107,6 @@ isDateDiff(dt_before: number, dt_current: number): boolean {
 
   onSubmit() {
     this.searchWeatherByCity();
-    console.log('searchWeatherByCity', this.city); 
+    console.log('searchWeatherByCity', this.city);
   }
 }

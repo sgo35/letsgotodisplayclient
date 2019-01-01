@@ -13,8 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [WeatherComponent],
   imports: [
     CommonModule, BrowserAnimationsModule
-    , FormsModule, ReactiveFormsModule, HttpClientModule
-    , MatCardModule, MatButtonModule, MatFormFieldModule, MatAutocompleteModule, MatInputModule
+    , HttpClientModule
+    , MatCardModule, MatButtonModule, MatAutocompleteModule, MatInputModule
   ]
   , exports: [
     WeatherComponent

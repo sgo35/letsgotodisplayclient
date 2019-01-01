@@ -11,7 +11,8 @@ import { AppComponent } from './app.component';
 import { WeatherModule } from './weather/weather.module';
 import { RestConfigurationService } from './services/rest-configuration.service';
 import { AppService } from './services/app.service';
-import { UtilService } from './services/util.service';
+import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -22,6 +23,8 @@ registerLocaleData(localeFr, 'fr');
   imports: [
     BrowserModule, HttpClientModule
     , BrowserAnimationsModule
+    , FormsModule, ReactiveFormsModule
+    , MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule
     , WeatherModule
     , RestangularModule.forRoot([RestConfigurationService], restangularConfigFactory),
 

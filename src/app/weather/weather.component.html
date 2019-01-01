@@ -1,5 +1,5 @@
 <div 
-  class="weather">
+  class="weather" #weather>
   <!-- <div *ngIf="cities?.length > 0">
     <mat-form-field>
       <input type="text" matInput [formControl]="searchCityControl" [matAutocomplete]="auto">
@@ -9,9 +9,9 @@
       <mat-option *ngFor="let city of cities" [value]="city.name">{{ city.name }}, [{{ city.country }}]</mat-option>
     </mat-autocomplete>
   <div> -->
-    <form (ngSubmit)="searchWeatherByCity()">
+    <!-- <form (ngSubmit)="searchWeatherByCity()">
     <input type="text" matInput [(ngModel)]="city" name="city" id="city">
-    <button type="submit" class="btn btn-success">Rechercher</button>
+    <button type="submit" class="btn btn-success">Rechercher</button> -->
     <div *ngIf="data; else noResult" >
     <h2>
       Météo de {{ data.city.name }} <span *ngIf="data.city.country">[{{data.city.country}}]</span>
@@ -29,9 +29,9 @@
         <!-- <img mat-card-image src="{{ getImageByWeather(item.weather[0]) }}" alt="Photo of a Shiba Inu"> -->
         <mat-card-content>
           <h4>
-            Température : {{ item.main.temp }}°C
+            Température : {{ item.main.temp | number:'1.0-1' }}°C
           </h4>
-          <p>min : {{ item.main.temp_min }}°C | max : {{ item.main.temp_max }}°C</p>
+          <div *ngIf="item.main.temp_min < item.main.temp_max">min : {{ item.main.temp_min | number:'1.0-1' }}°C | max : {{ item.main.temp_max | number:'1.0-1' }}°C</div>
         </mat-card-content>
         <mat-card-actions>
           <button mat-button>Détail...</button>
@@ -42,7 +42,7 @@
   <ng-template #noResult>
     Sélectionner une commune...
   </ng-template>
-</form>
+<!-- </form> -->
 
   <!-- <ul class="middle">
     <li *ngFor="let item of data.list; let i=index">
