@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpParamsOptions } from '@angular/common/http/src/params';
 import { Weather, ApiWeather } from './weather.interface';
 import { AbstractTypedRestService } from '../services/abstractTypedRest.service';
 import { Restangular } from 'ngx-restangular';
@@ -20,8 +19,14 @@ export class WeatherService extends AbstractTypedRestService<ApiWeather> {
   }
 
   // Récupère la météo pour une commune donnée en paramètre
-  getfindByCity(cityName: string, options?: HttpParamsOptions): Observable<ApiWeather> {
-    return this.getRestangular().one(this.getEntityName()).one(encodeURI(cityName)).get(options);
+  getfindByCity(cityName: string, country?: string, options?: any): Observable<ApiWeather> {
+    const cityUri = encodeURIComponent(cityName);
+    console.log('getfindByCity', cityName, cityUri);
+    return this.getRestangular()
+      .one(this.getEntityName())
+      .one(options && options.mode ? options.mode : 'weekly')
+      .one(country ? country : 'fr')
+      .one(cityUri).get();
   }
 
   async getWeatherIcon(weather: Weather) {
