@@ -14,6 +14,6 @@ export class AppComponent {
   @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
 
   search(params: Params) {
-    this.weatherComponent.searchWeatherByCity(params.city);
+    this.weatherComponent.searchWeatherByCity('weekly', params.city);
   }
 }

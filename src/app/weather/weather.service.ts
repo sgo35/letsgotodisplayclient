@@ -26,7 +26,8 @@ export class WeatherService extends AbstractTypedRestService<ApiWeather> {
       .one(this.getEntityName())
       .one(options && options.mode ? options.mode : 'weekly')
       .one(country ? country : 'fr')
-      .one(cityUri).get();
+      .one(cityUri)
+      .get();
   }
 
   async getWeatherIcon(weather: Weather) {
