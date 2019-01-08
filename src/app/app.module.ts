@@ -5,14 +5,16 @@ import { Restangular, RestangularModule } from 'ngx-restangular';
 import { restangularConfigFactory } from './rest-configuration';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import localeFr from '@angular/common/locales/fr';
 
-import { AppComponent } from './app.component';
-import { WeatherModule } from './weather/weather.module';
 import { RestConfigurationService } from './services/rest-configuration.service';
 import { AppService } from './services/app.service';
-import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { HeaderModule } from './header/header.module';
+import { MainModule } from './main/main.module';
+
+import { AppComponent } from './app.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -23,10 +25,8 @@ registerLocaleData(localeFr, 'fr');
   imports: [
     BrowserModule, HttpClientModule
     , BrowserAnimationsModule
-    , FormsModule, ReactiveFormsModule
-    , MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule
-    , WeatherModule
-    , RestangularModule.forRoot([RestConfigurationService], restangularConfigFactory),
+    , RestangularModule.forRoot([RestConfigurationService], restangularConfigFactory)
+    , HeaderModule, MainModule
 
   ],
   providers: [

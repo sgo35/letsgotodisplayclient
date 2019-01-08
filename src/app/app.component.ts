@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Params } from './interfaces/params.interface';
 import { WeatherComponent } from './weather/weather.component';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,4 @@ import { WeatherComponent } from './weather/weather.component';
 })
 export class AppComponent {
   title = 'letsgotodisplayclient';
-  params: Params = { city: 'Rennes' };
-  city: string;
-  @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
-
-  search(params: Params) {
-    this.weatherComponent.searchWeatherByCity('weekly', params.city);
-  }
 }

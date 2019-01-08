@@ -26,7 +26,7 @@ export class WeatherService extends AbstractTypedRestService<any> {
     return this.getRestangular()
       .one('weather')
       .one('forecast')
-      .one(country ? country : 'FR')
+      .one(country ? country : '')
       .one(cityUri)
       .get();
   }

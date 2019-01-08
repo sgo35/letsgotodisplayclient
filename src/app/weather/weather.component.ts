@@ -66,7 +66,7 @@ export class WeatherComponent implements OnInit {
     this.weatherCurrent = undefined;
     switch (mode) {
       case 'forecast':
-        this.weatherService.getfindWeatherForecastByCity(cityName ? cityName : this.city, countryName ? countryName : 'fr').subscribe(
+        this.weatherService.getfindWeatherForecastByCity(cityName ? cityName : this.city, countryName).subscribe(
           data => {
             console.log('mode data', mode, data);
             this.weatherForecast = <WeatherForecast>data;

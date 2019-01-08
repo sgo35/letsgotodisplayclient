@@ -14,7 +14,7 @@
     <button type="submit" class="btn btn-success">Rechercher</button> -->
   <div *ngIf="weatherForecast; else noResult">
     <h2 *ngIf="weatherForecast?.city?.name">
-      Météo de {{ weatherForecast.city.name }} <span *ngIf="weatherForecast?.city?.country">[{{weatherForecast.city.country}}]</span>
+      <i class="fas fa-map-marker-alt blue"></i> {{ weatherForecast.city.name }} <span *ngIf="weatherForecast?.city?.country" class="country">[{{weatherForecast.city.country}}]</span>
     </h2>
     <div *ngFor="let item of weatherForecast.list; let i=index"
       class="flex-container">
@@ -25,7 +25,7 @@
             [style.background-image]="getWeatherIcon(item.weather[0])"></div>
           <!-- <mat-card-title><h1>{{ getDateTime(item.dt) | date: 'EEEE d MMMM \' à \'H\'h\'' }}</h1></mat-card-title> -->
           <mat-card-title *ngIf="i === 0 || isDateDiff(weatherForecast.list[i-1].dt, item.dt)">
-            <h3 style="color:#069;">{{ getDateTime(item.dt) | date: 'EEEE d MMMM' }}</h3>
+            <h3 class="blue">{{ getDateTime(item.dt) | date: 'EEEE d MMMM' }}</h3>
           </mat-card-title>
           <mat-card-subtitle>
             <h1>{{ getDateTime(item.dt) | date: 'H\'h\'' }}</h1>
