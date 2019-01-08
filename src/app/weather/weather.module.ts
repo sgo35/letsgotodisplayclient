@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeatherComponent } from './weather.component';
-import { WeatherService } from './weather.service';
+import { WeatherService } from './services/weather.service';
 import { UtilService } from '../services/util.service';
 import { MatCardModule, MatButtonModule, MatFormFieldModule, MatAutocompleteModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';

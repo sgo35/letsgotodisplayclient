@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WeatherService } from './weather.service';
-import { Weather, ApiWeather } from './weather.interface';
+import { WeatherService } from './services/weather.service';
+import { Weather, WeatherForecast } from './interfaces/weatherForecast.interface';
 import { UtilService } from '../services/util.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { City } from '../interfaces/city.interface';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { WeatherCurrent } from './interfaces/weatherCurrent.interface';
 
 const uri_base = 'http://openweathermap.org';
 const uri_cities = '../../assets/json/city.list.json';
@@ -17,12 +18,13 @@ const uri_cities = '../../assets/json/city.list.json';
 })
 export class WeatherComponent implements OnInit {
 
-  data: ApiWeather;
+  weatherForecast: WeatherForecast;
+  weatherCurrent: WeatherCurrent;
   cities: Array<City>;
   _city: string;
   @Input() set city(city: string) {
     this._city = city;
-    this.searchWeatherByCity('weekly');
+    this.searchWeatherByCity('forecast', city);
   }
   get city() { return this._city; }
 
@@ -58,15 +60,46 @@ export class WeatherComponent implements OnInit {
     // this.searchWeatherByCity();
   }
 
-  searchWeatherByCity(mode: string, cityName?: string, countryName?: string) {
-    const options = { mode: mode };
+  searchWeatherByCity(mode: string, cityName?: string, countryName?: string, nbDay?: string) {
     // httpParams.append('mode', mode);
-    this.weatherService.getfindByCity(cityName ? cityName : this.city, countryName ? countryName : 'fr', options).subscribe(
-      data => {
-        console.log('data', data);
-        this.data = data;
-      }
-    );
+    this.weatherForecast = undefined;
+    this.weatherCurrent = undefined;
+    switch (mode) {
+      case 'forecast':
+        this.weatherService.getfindWeatherForecastByCity(cityName ? cityName : this.city, countryName ? countryName : 'fr').subscribe(
+          data => {
+            console.log('mode data', mode, data);
+            this.weatherForecast = <WeatherForecast>data;
+          }
+        );
+        break;
+      case 'daily':
+        this.weatherService.getfindWeatherDailyByCity(
+          cityName ? cityName : this.city
+          , countryName ? countryName : 'fr'
+          , nbDay ? nbDay : '10'
+        ).subscribe(
+          data => {
+            console.log('mode data', mode, data);
+            this.weatherForecast = <WeatherForecast>data;
+          }
+        );
+        break;
+      case 'current':
+        this.weatherService.getfindWeatherByCity(
+          cityName ? cityName : this.city
+          , countryName ? countryName : 'fr'
+        ).subscribe(
+          data => {
+            console.log('mode data', mode, data);
+            this.weatherCurrent = <WeatherCurrent>data;
+          }
+        );
+        break;
+      default:
+        console.error('mode not found', mode);
+        break;
+    }
   }
 
   //   searchCity(name: string){
@@ -108,7 +141,7 @@ export class WeatherComponent implements OnInit {
   }
 
   onSubmit() {
-    this.searchWeatherByCity('weekly');
+    this.searchWeatherByCity('forecast', this.city);
     console.log('searchWeatherByCity', this.city);
   }
 }

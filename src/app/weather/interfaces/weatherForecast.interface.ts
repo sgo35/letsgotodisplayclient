@@ -1,6 +1,6 @@
-import { City } from '../interfaces/city.interface';
+import { City } from '../../interfaces/city.interface';
 
-export interface ApiWeather {
+export interface WeatherForecast {
     cod: string;
     message: number;
     cnt: number;
