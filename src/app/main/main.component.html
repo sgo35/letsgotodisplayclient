@@ -1,6 +1,6 @@
-<form (ngSubmit)="search()">
+<form (ngSubmit)="search(weatherGroup.value)">
     <div class="actions" [formGroup]="formGroup">
-        <mat-form-field class="actions">
+        <mat-form-field class="city">
             <input matInput type="text" placehoder="Saisissez le ou les mot-clés" formControlName="city">
           </mat-form-field>
             
@@ -8,6 +8,13 @@
           <i class="fas fa-search-location"></i>&nbsp;Rechercher
         </button>
     </div>
+    <p>
+      <mat-button-toggle-group #weatherGroup="matButtonToggleGroup" aria-label="Météo" value="forecast">
+          <mat-button-toggle value="current">Aujourd'hui</mat-button-toggle>
+        <mat-button-toggle value="forecast">toutes les 3 heures</mat-button-toggle>
+        <mat-button-toggle value="daily">sur 7 jours</mat-button-toggle>
+      </mat-button-toggle-group>
+    </p>
       <!-- <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>

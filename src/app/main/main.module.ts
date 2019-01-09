@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainComponent } from './main.component';
 import { WeatherModule } from '../weather/weather.module';
-import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
+import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatButtonToggleModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule
     , FormsModule, ReactiveFormsModule
-    , MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule
+    , MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatButtonToggleModule
     , WeatherModule
   ]
   , exports: [

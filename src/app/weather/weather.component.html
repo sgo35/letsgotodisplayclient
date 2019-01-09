@@ -12,8 +12,8 @@
   <!-- <form (ngSubmit)="searchWeatherByCity()">
     <input type="text" matInput [(ngModel)]="city" name="city" id="city">
     <button type="submit" class="btn btn-success">Rechercher</button> -->
-  <div *ngIf="weatherForecast; else noResult">
-    <h2 *ngIf="weatherForecast?.city?.name">
+  <div *ngIf="weatherForecast">
+    <h2 *ngIf="weatherForecast.city?.name">
       <i class="fas fa-map-marker-alt blue"></i> {{ weatherForecast.city.name }} <span *ngIf="weatherForecast?.city?.country" class="country">[{{weatherForecast.city.country}}]</span>
     </h2>
     <div *ngFor="let item of weatherForecast.list; let i=index"
@@ -38,15 +38,29 @@
           </h4>
           <div *ngIf="item.main.temp_min < item.main.temp_max">min : {{ item.main.temp_min | number:'1.0-1' }}°C | max
             : {{ item.main.temp_max | number:'1.0-1' }}°C</div>
+            {{ item | json }}
         </mat-card-content>
         <mat-card-actions>
           <button mat-button>Détail...</button>
         </mat-card-actions>
       </mat-card>
     </div>
+    <!-- {{ weatherForecast | json }} -->
   </div>
-  <ng-template #noResult>
-    Sélectionner une commune...
+  <div *ngIf="weatherDaily">
+      <h2 *ngIf="weatherDaily.city?.name">
+        <i class="fas fa-map-marker-alt blue"></i> {{ weatherDaily.city.name }} <span *ngIf="weatherDaily?.city?.country" class="country">[{{weatherDaily.city.country}}]</span>
+      </h2>
+      {{ weatherDaily | json }}
+  </div>
+  <div *ngIf="weatherCurrent">
+      <h2 *ngIf="weatherCurrent.name">
+        <i class="fas fa-map-marker-alt blue"></i> {{ weatherCurrent.name }}
+      </h2>
+      {{ weatherCurrent | json }}
+  </div>
+      <ng-template #noResult>
+    Sélectionnez une commune...
   </ng-template>
   <!-- </form> -->
 

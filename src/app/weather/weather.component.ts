@@ -7,6 +7,7 @@ import { WeatherService } from './services/weather.service';
 import { City } from '../interfaces/city.interface';
 import { Weather, WeatherForecast } from './interfaces/weatherForecast.interface';
 import { WeatherCurrent } from './interfaces/weatherCurrent.interface';
+import { WeatherDaily } from './interfaces/weatherDaily.interface';
 
 const uri_base = 'http://openweathermap.org';
 const uri_cities = '../../assets/json/city.list.json';
@@ -20,6 +21,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   weatherForecast: WeatherForecast;
   weatherCurrent: WeatherCurrent;
+  weatherDaily: WeatherDaily;
   cities: Array<City>;
   _city: string;
   subscriptions: Array<Subscription>;
@@ -42,37 +44,17 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   init() {
     this.subscriptions = new Array<Subscription>();
-    // this.httpService.get(uri_cities).subscribe(
-    //   data => {
-    //     this.cities = data as City [];	 // FILL THE ARRAY WITH DATA.
-    //     console.log('init cities', this.cities);
-    //     // .debounceTime(400)
-    //     this.searchCityControl.valueChanges
-    //       .subscribe(keyword => {
-    //         return this.cities
-    //           ? this.cities.filter(c => c.name.toLowerCase().startsWith(keyword.toLowerCase()))
-    //           : undefined
-    //         }
-    //       );
-    //   },
-    //   (err: HttpErrorResponse) => {
-    //     console.log (err.message);
-    //   }
-    // );
-    // this.city = 'Rennes';
-    // this.searchWeatherByCity();
   }
 
-  searchWeatherByCity(mode: string, cityName?: string, countryName?: string, nbDay?: string) {
+  searchWeatherByCity(mode: string, cityName?: string, countryName?: string, nbDay?: number) {
     // httpParams.append('mode', mode);
-    this.weatherForecast = undefined;
-    this.weatherCurrent = undefined;
+    this.reset();
     switch (mode) {
       case 'forecast':
         this.subscriptions.push(
           this.weatherService.getfindWeatherForecastByCity(cityName ? cityName : this.city, countryName).subscribe(
             data => {
-              console.log('mode data', mode, data);
+              console.log('mode forecast', mode, data);
               this.weatherForecast = <WeatherForecast>data;
             }
             , error => {
@@ -85,11 +67,11 @@ export class WeatherComponent implements OnInit, OnDestroy {
           this.weatherService.getfindWeatherDailyByCity(
             cityName ? cityName : this.city
             , countryName ? countryName : 'fr'
-            , nbDay ? nbDay : '10'
+            , nbDay ? nbDay : 7
           ).subscribe(
             data => {
-              console.log('mode data', mode, data);
-              this.weatherForecast = <WeatherForecast>data;
+              console.log('mode daily', mode, data);
+              this.weatherDaily = <WeatherDaily>data;
             }
             , error => {
               console.error(error);
@@ -103,7 +85,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
             , countryName ? countryName : 'fr'
           ).subscribe(
             data => {
-              console.log('mode data', mode, data);
+              console.log('mode current', mode, data);
               this.weatherCurrent = <WeatherCurrent>data;
             }
             , error => {
@@ -162,11 +144,17 @@ export class WeatherComponent implements OnInit, OnDestroy {
     console.log('searchWeatherByCity', this.city);
   }
 
-  ngOnDestroy() {
+  reset() {
+    this.weatherForecast = undefined;
+    this.weatherCurrent = undefined;
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
       console.log('ngOnDestroy subscription', subscription);
     }
+  }
+
+  ngOnDestroy() {
+    this.reset();
   }
 
 }

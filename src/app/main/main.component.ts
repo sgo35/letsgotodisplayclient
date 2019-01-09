@@ -15,8 +15,8 @@ export class MainComponent implements OnInit {
   constructor(private fb: FormBuilder) {
   }
 
-  search() {
-    this.weatherComponent.searchWeatherByCity('forecast', this.formGroup.controls['city'].value);
+  search(mode: string) {
+    this.weatherComponent.searchWeatherByCity(mode, this.formGroup.controls['city'].value);
   }
 
 

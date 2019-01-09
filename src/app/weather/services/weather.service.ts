@@ -5,6 +5,7 @@ import { AbstractTypedRestService } from '../../services/abstractTypedRest.servi
 import { Restangular } from 'ngx-restangular';
 import { ImagePixabay } from '../../interfaces/imagePixabay.interface';
 import { WeatherCurrent } from '../interfaces/weatherCurrent.interface';
+import { WeatherDaily } from '../interfaces/weatherDaily.interface';
 
 
 @Injectable({
@@ -31,7 +32,7 @@ export class WeatherService extends AbstractTypedRestService<any> {
       .get();
   }
 
-  getfindWeatherDailyByCity(cityName: string, country?: string, nbDay?: string): Observable<WeatherForecast> {
+  getfindWeatherDailyByCity(cityName: string, country?: string, nbDay?: number): Observable<WeatherDaily> {
     const cityUri = encodeURIComponent(cityName);
     console.log('getfindWeatherForecastByCity ', cityName, cityUri);
     return this.getRestangular()
@@ -39,7 +40,7 @@ export class WeatherService extends AbstractTypedRestService<any> {
       .one('daily')
       .one(country ? country : 'FR')
       .one(cityUri)
-      .one(nbDay ? nbDay : 10)
+      .one(nbDay ? nbDay : 7)
       .get();
   }
 
