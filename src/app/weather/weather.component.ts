@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { WeatherService } from './services/weather.service';
-import { Weather, WeatherForecast } from './interfaces/weatherForecast.interface';
-import { UtilService } from '../services/util.service';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
+
+import { WeatherService } from './services/weather.service';
 import { City } from '../interfaces/city.interface';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Weather, WeatherForecast } from './interfaces/weatherForecast.interface';
 import { WeatherCurrent } from './interfaces/weatherCurrent.interface';
 
 const uri_base = 'http://openweathermap.org';
@@ -16,12 +16,14 @@ const uri_cities = '../../assets/json/city.list.json';
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.css']
 })
-export class WeatherComponent implements OnInit {
+export class WeatherComponent implements OnInit, OnDestroy {
 
   weatherForecast: WeatherForecast;
   weatherCurrent: WeatherCurrent;
   cities: Array<City>;
   _city: string;
+  subscriptions: Array<Subscription>;
+
   @Input() set city(city: string) {
     this._city = city;
     this.searchWeatherByCity('forecast', city);
@@ -39,6 +41,7 @@ export class WeatherComponent implements OnInit {
   }
 
   init() {
+    this.subscriptions = new Array<Subscription>();
     // this.httpService.get(uri_cities).subscribe(
     //   data => {
     //     this.cities = data as City [];	 // FILL THE ARRAY WITH DATA.
@@ -66,35 +69,47 @@ export class WeatherComponent implements OnInit {
     this.weatherCurrent = undefined;
     switch (mode) {
       case 'forecast':
-        this.weatherService.getfindWeatherForecastByCity(cityName ? cityName : this.city, countryName).subscribe(
-          data => {
-            console.log('mode data', mode, data);
-            this.weatherForecast = <WeatherForecast>data;
-          }
-        );
+        this.subscriptions.push(
+          this.weatherService.getfindWeatherForecastByCity(cityName ? cityName : this.city, countryName).subscribe(
+            data => {
+              console.log('mode data', mode, data);
+              this.weatherForecast = <WeatherForecast>data;
+            }
+            , error => {
+              console.error(error);
+            }
+          ));
         break;
       case 'daily':
-        this.weatherService.getfindWeatherDailyByCity(
-          cityName ? cityName : this.city
-          , countryName ? countryName : 'fr'
-          , nbDay ? nbDay : '10'
-        ).subscribe(
-          data => {
-            console.log('mode data', mode, data);
-            this.weatherForecast = <WeatherForecast>data;
-          }
-        );
+        this.subscriptions.push(
+          this.weatherService.getfindWeatherDailyByCity(
+            cityName ? cityName : this.city
+            , countryName ? countryName : 'fr'
+            , nbDay ? nbDay : '10'
+          ).subscribe(
+            data => {
+              console.log('mode data', mode, data);
+              this.weatherForecast = <WeatherForecast>data;
+            }
+            , error => {
+              console.error(error);
+            }
+          ));
         break;
       case 'current':
-        this.weatherService.getfindWeatherByCity(
-          cityName ? cityName : this.city
-          , countryName ? countryName : 'fr'
-        ).subscribe(
-          data => {
-            console.log('mode data', mode, data);
-            this.weatherCurrent = <WeatherCurrent>data;
-          }
-        );
+        this.subscriptions.push(
+          this.weatherService.getfindWeatherByCity(
+            cityName ? cityName : this.city
+            , countryName ? countryName : 'fr'
+          ).subscribe(
+            data => {
+              console.log('mode data', mode, data);
+              this.weatherCurrent = <WeatherCurrent>data;
+            }
+            , error => {
+              console.error(error);
+            }
+          ));
         break;
       default:
         console.error('mode not found', mode);
@@ -135,7 +150,9 @@ export class WeatherComponent implements OnInit {
 
   async getImageByWeather(weather: Weather) {
     let response;
-    await this.weatherService.getImageByWeather(weather).subscribe(item => response = item);
+    this.subscriptions.push(
+      await this.weatherService.getImageByWeather(weather).subscribe(item => response = item)
+    );
     console.log('getImageByWeather weather', weather, response);
     return response && response.hits && response.hits.length > 0 ? response.hits[0].largeImageURL : '';
   }
@@ -144,4 +161,12 @@ export class WeatherComponent implements OnInit {
     this.searchWeatherByCity('forecast', this.city);
     console.log('searchWeatherByCity', this.city);
   }
+
+  ngOnDestroy() {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+      console.log('ngOnDestroy subscription', subscription);
+    }
+  }
+
 }
