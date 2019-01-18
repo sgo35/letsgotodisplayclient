@@ -1,3 +1,11 @@
 .actions .city.mat-form-field {
     margin-right: 10px;
 }
+
+.flex-container {
+    display: inline-flex;
+}
+
+.flex-container > * {
+    flex : 0 20%;
+}

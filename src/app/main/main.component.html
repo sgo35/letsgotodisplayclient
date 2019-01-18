@@ -1,21 +1,44 @@
 <form (ngSubmit)="search(weatherGroup.value)">
-    <div class="actions" [formGroup]="formGroup">
-        <mat-form-field class="city">
-            <input matInput type="text" placehoder="Saisissez le ou les mot-clés" formControlName="city">
-          </mat-form-field>
-            
-        <button mat-raised-button color="primary" type="submit" class="btn btn-success">
-          <i class="fas fa-search-location"></i>&nbsp;Rechercher
-        </button>
+  <div class="actions"
+    [formGroup]="formGroup">
+    <mat-form-field class="city">
+      <input matInput
+        type="text"
+        placehoder="Saisissez le ou les mot-clés"
+        formControlName="city">
+    </mat-form-field>
+
+    <button mat-raised-button
+      color="primary"
+      type="submit"
+      class="btn btn-success">
+      <i class="fas fa-search-location"></i>&nbsp;Rechercher
+    </button>
+  </div>
+  <div class="flex-container">
+    <div class="news">
+      <h2>Actualité</h2>
+      <mat-button-toggle-group #newsGroup="matButtonToggleGroup"
+        aria-label="Actualité"
+        value="news">
+        <mat-button-toggle value="today">Aujourd'hui</mat-button-toggle>
+        <mat-button-toggle value="yesterday">Hier</mat-button-toggle>
+        <mat-button-toggle value="week">sur 7 jours</mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
-    <p>
-      <mat-button-toggle-group #weatherGroup="matButtonToggleGroup" aria-label="Météo" value="forecast">
-          <mat-button-toggle value="current">Aujourd'hui</mat-button-toggle>
+    <div class="weather">
+      <h2>Météo</h2>
+      <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
+        aria-label="Météo"
+        value="forecast">
+        <mat-button-toggle value="current">Aujourd'hui</mat-button-toggle>
         <mat-button-toggle value="forecast">toutes les 3 heures</mat-button-toggle>
         <mat-button-toggle value="daily">sur 7 jours</mat-button-toggle>
       </mat-button-toggle-group>
-    </p>
-      <!-- <mat-accordion>
+    </div>
+  </div>
+
+  <!-- <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>

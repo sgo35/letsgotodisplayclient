@@ -40,7 +40,7 @@ export class WeatherService extends AbstractTypedRestService<any> {
       .one('daily')
       .one(country ? country : 'FR')
       .one(cityUri)
-      .one(nbDay ? nbDay : 7)
+      .one(nbDay ? nbDay + '' : '7')
       .get();
   }
 
