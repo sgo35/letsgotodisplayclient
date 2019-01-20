@@ -6,14 +6,17 @@ import { Restangular } from 'ngx-restangular';
 import { ImagePixabay } from '../../interfaces/imagePixabay.interface';
 import { WeatherCurrent } from '../interfaces/weatherCurrent.interface';
 import { WeatherDaily } from '../interfaces/weatherDaily.interface';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
+const uri_base = 'http://openweathermap.org';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService extends AbstractTypedRestService<any> {
 
-  constructor(restangular: Restangular) {
+  constructor(restangular: Restangular
+    , private sanitization: DomSanitizer) {
     super(restangular);
   }
   getEntityName() {
@@ -56,9 +59,32 @@ export class WeatherService extends AbstractTypedRestService<any> {
   }
 
   async getWeatherIcon(weather: Weather) {
-    const response = <string>this.getRestangular().one(this.getEntityName()).one('icon').one(weather.icon).get().toPromise();
+    const response: string = <string>this.getRestangular().one(this.getEntityName()).one('icon').one(weather.icon).get().toPromise();
     console.log('getWeatherIcon weather', weather, response);
     return response;
+  }
+
+  getWeatherIconUrl(weather: Weather): SafeStyle {
+    const url = + uri_base + '/img/w/' + weather.icon + '.png';
+    // return this.utilsService.sanitizeRestUrl(this.weatherService.getRestangular().configuration.baseUrl, url);
+    return this.sanitization.bypassSecurityTrustStyle('url(' + uri_base + '/img/w/' + weather.icon + '.png' + ')');
+  }
+
+  getDateTime(dt: Date | number): Date {
+    if (typeof dt === 'number') {
+      const epoch: number = dt;
+      dt = new Date(0);
+      dt.setUTCSeconds(epoch);
+    }
+    return dt;
+  }
+
+  isDateDiff(dt_before: number, dt_current: number): boolean {
+    const date_before: Date = new Date(0);
+    date_before.setUTCSeconds(dt_before);
+    const date_current: Date = new Date(0);
+    date_current.setUTCSeconds(dt_current);
+    return date_current.getDate() > date_before.getDate();
   }
 
   getImageByWeather(weather: Weather): Observable<ImagePixabay> {
@@ -75,5 +101,6 @@ export class WeatherService extends AbstractTypedRestService<any> {
     return this.getRestangular().oneUrl('Pixabay', url).get(param);
 
   }
+
 
 }

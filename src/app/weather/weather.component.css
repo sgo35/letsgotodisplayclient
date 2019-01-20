@@ -8,38 +8,3 @@
     height: 100px;
   }
 
-  .weather .flex-container {
-    min-width: 300px;
-    /* height: 200px; */
-    padding: 0px;
-    margin: 5px;
-    list-style: none;
-    border: 3px solid #069;
-    border-radius: 5px;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-  }
-
-  .weather .flex-container::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: #0695;
-    /* background: url('../../assets/images/fond.jpg') 0 0 no-repeat; */
-    background-size: cover;
-     opacity: .30;
-    z-index: -1;
-  }
-
-  .country {
-    color: #999;
-    font-size: 0.9em;
-  }
-
-  .blue {
-    color: #069;
-  }

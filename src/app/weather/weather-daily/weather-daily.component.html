@@ -1,0 +1,4 @@
+<h2>
+    <i class="fas fa-map-marker-alt blue"></i> {{ city.name }} <span *ngIf="city?.country" class="country">[{{city.country}}]</span>
+  </h2>
+  {{ weather | json }}

@@ -1,3 +1,5 @@
+import { City } from 'src/app/interfaces/city.interface';
+
 export interface WeatherDaily {
   city: City;
   cod: string;
@@ -32,17 +34,4 @@ export interface Temp {
   night: number;
   eve: number;
   morn: number;
-}
-
-export interface City {
-  id: number;
-  name: string;
-  coord: Coord;
-  country: string;
-  population: number;
-}
-
-export interface Coord {
-  lat: number;
-  lon: number;
 }

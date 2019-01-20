@@ -1,0 +1,35 @@
+<div *ngIf="weather" class="weatherForecast">
+    <h2>
+        <i class="fas fa-map-marker-alt blue"></i> {{ city.name }} <span *ngIf="city?.country" class="country">[{{city.country}}]</span>
+      </h2>
+  <div *ngFor="let item of weather.list; let i=index"
+    class="flex-container">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar
+          class="example-header-image"
+          [style.background-image]="getWeatherIconUrl(item.weather[0])"></div>
+        <!-- <mat-card-title><h1>{{ getDateTime(item.dt) | date: 'EEEE d MMMM \' à \'H\'h\'' }}</h1></mat-card-title> -->
+        <mat-card-title *ngIf="i === 0 || isDateDiff(weather.list[i-1].dt, item.dt)">
+          <h3 class="blue">{{ getDateTime(item.dt) | date: 'EEEE d MMMM' }}</h3>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <h1>{{ getDateTime(item.dt) | date: 'H\'h\'' }}</h1>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <!-- <img mat-card-image src="{{ getImageByWeather(item.weather[0]) }}" alt="Photo of a Shiba Inu"> -->
+      <mat-card-content>
+        <h4>
+          Température : {{ item.main.temp | number:'1.0-1' }}°C
+        </h4>
+        <div *ngIf="item.main.temp_min < item.main.temp_max">min : {{ item.main.temp_min | number:'1.0-1' }}°C | max
+          : {{ item.main.temp_max | number:'1.0-1' }}°C</div>
+          {{ item | json }}
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>Détail...</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <!-- {{ weather | json }} -->
+</div>

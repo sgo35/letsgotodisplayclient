@@ -1,7 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { Params } from './interfaces/params.interface';
-import { WeatherComponent } from './weather/weather.component';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',

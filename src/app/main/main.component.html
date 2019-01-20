@@ -1,4 +1,4 @@
-<form (ngSubmit)="search(weatherGroup.value)">
+<form (ngSubmit)="searchWeather(weatherGroup.value)">
   <div class="actions"
     [formGroup]="formGroup">
     <mat-form-field class="city">
@@ -30,10 +30,10 @@
       <h2>Météo</h2>
       <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
         aria-label="Météo"
-        value="forecast">
-        <mat-button-toggle value="current">Aujourd'hui</mat-button-toggle>
-        <mat-button-toggle value="forecast">toutes les 3 heures</mat-button-toggle>
-        <mat-button-toggle value="daily">sur 7 jours</mat-button-toggle>
+        value="{{ weatherModeEnum.Forecast }}">
+        <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>
+        <mat-button-toggle value="{{ weatherModeEnum.Forecast }}">toutes les 3 heures</mat-button-toggle>
+        <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
   </div>

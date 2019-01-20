@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { WeatherComponent } from '../weather/weather.component';
+import { WeatherModeEnum } from '../weather/interfaces/weatherMode.enum';
 
 @Component({
   selector: 'app-main',
@@ -10,13 +11,14 @@ import { WeatherComponent } from '../weather/weather.component';
 export class MainComponent implements OnInit {
 
   formGroup: FormGroup;
+  weatherModeEnum = WeatherModeEnum;
   @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
 
   constructor(private fb: FormBuilder) {
   }
 
-  search(mode: string) {
-    this.weatherComponent.searchWeatherByCity(mode, this.formGroup.controls['city'].value);
+  searchWeather(mode: WeatherModeEnum) {
+    this.weatherComponent.searchWeatherByCity(mode, this.formGroup.controls.city.value, 'fr');
   }
 
 
