@@ -5,8 +5,21 @@
       <input matInput
         type="text"
         placehoder="Saisissez le ou les mot-clés"
-        formControlName="city">
+        formControlName="city"
+        [matAutocomplete]="auto">
     </mat-form-field>
+
+    <span>Vous avez sélectionné : {{formGroup.get('city').value | json}}</span>
+  
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
+      <ng-container *ngIf="!isLoading">
+        <mat-option *ngFor="let city of filteredCities" [value]="city">
+          <span>{{ city.name }}</span>
+          <small> | ID: {{city.id}}</small>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
 
     <button mat-raised-button
       color="primary"
