@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Restangular } from 'ngx-restangular';
 import { UtilService } from './util.service';
 import { SearchParam } from '../interfaces/searchParam';
+import { ImagePixabay } from '../interfaces/imagePixabay.interface';
 
 @Injectable()
 export abstract class AbstractTypedRestService<T extends any> {
@@ -68,4 +69,21 @@ export abstract class AbstractTypedRestService<T extends any> {
   remove(e: T): Observable<T> {
     return e.remove();
   }
+
+  getImageByKeywords(keywords: string): Observable<ImagePixabay> {
+    // const keywords: string = weather.description.split(' ').join('+');
+    const url = 'https://pixabay.com/api/';
+    const param = {
+      key: '11118448-e4c47c2a63af17d4ea5bdb42d'
+      , q: encodeURIComponent(keywords)
+      , image_type: 'photo'
+      , pretty: true
+      , per_page: 3
+      , orientation: 'horizontal'
+    };
+    return this.getRestangular().oneUrl('Pixabay', url).get(param);
+
+  }
+
+
 }

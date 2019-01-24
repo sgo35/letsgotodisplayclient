@@ -69,8 +69,9 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   async getImageByWeather(weather: Weather) {
     let response;
+    const keywords: string = weather.description.split(' ').join('+');
     this.subscriptions.push(
-      await this.weatherService.getImageByWeather(weather).subscribe(item => response = item)
+      await this.weatherService.getImageByKeywords(keywords).subscribe(item => response = item)
     );
     console.log('getImageByWeather weather', weather, response);
     return response && response.hits && response.hits.length > 0 ? response.hits[0].largeImageURL : '';

@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import {switchMap, debounceTime, tap, finalize} from 'rxjs/operators';
+import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 
 import { WeatherComponent } from '../weather/weather.component';
 import { WeatherModeEnum } from '../weather/interfaces/weatherMode.enum';
-import { CityService } from '../services/city.service';
 import { City } from '../interfaces/city.interface';
+import { CityService } from '../city/services/city.service';
 
 @Component({
   selector: 'app-main',
@@ -29,22 +29,23 @@ export class MainComponent implements OnInit {
 
 
   ngOnInit() {
-    this.formGroup =  this.fb.group({
+    this.formGroup = this.fb.group({
       'city': null
     });
     this.filteredCities = new Array<City>();
     this.isLoading = true;
     this.formGroup.controls.city.valueChanges
-    .pipe(
-      debounceTime(300),
-      tap(() => this.isLoading = true),
-      switchMap(value => this.cityService.search({name: value}, 1)
       .pipe(
-        finalize(() => this.isLoading = false),
+        debounceTime(300),
+        tap(() => this.isLoading = true),
+        switchMap(value =>
+          this.cityService.getfindCityByName(value, 'FR')
+            .pipe(
+              finalize(() => this.isLoading = false),
+            )
         )
       )
-    )
-    .subscribe(cities => this.filteredCities = cities);
+      .subscribe(cities => this.filteredCities = cities);
     // this.cityService.getCities().subscribe(data => {
     //   console.log('cityService.getCities', data);
     //   this.cities = data;

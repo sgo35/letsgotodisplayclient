@@ -73,4 +73,5 @@ export class UtilService {
 
         return datePart + timePart;
     }
+
 }
