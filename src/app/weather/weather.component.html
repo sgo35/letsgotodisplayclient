@@ -1,18 +1,19 @@
 <div class="weather"
   #weather>
-  <div class="container" [ngSwitch]="+mode">
+  <div class="container"
+    [ngSwitch]="+mode">
     <div *ngSwitchCase="weatherModeEnum.Forecast">
       <app-weather-forecast [city]="city"></app-weather-forecast>
     </div>
     <div *ngSwitchCase="weatherModeEnum.Daily">
-        <app-weather-daily [city]="city"></app-weather-daily>
-      </div>
-      <div *ngSwitchCase="weatherModeEnum.Current">
-          <app-weather-now [city]="city"></app-weather-now>
+      <app-weather-daily [city]="city"></app-weather-daily>
+    </div>
+    <div *ngSwitchCase="weatherModeEnum.Current">
+      <app-weather-now [city]="city"></app-weather-now>
+    </div>
+    <div *ngSwitchDefault>
+      Sélectionnez un mode...
+    </div>
   </div>
-  <div *ngSwitchDefault>
-    Sélectionnez un mode...
-  </div>
-</div>
 
 </div>

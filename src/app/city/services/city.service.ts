@@ -28,14 +28,11 @@ export class CityService extends AbstractTypedRestService<City> {
   getfindCityByName(cityName: string, country?: string): Observable<City[]> {
     const cityUri = encodeURIComponent(cityName);
     console.log('getfindCityByName ', cityName, cityUri);
-    const params = {
-      name: cityUri
-      , country: country
-    };
+    const params = { name: cityUri, country: country };
     return this.getRestangular()
       .one('city')
       .all('list')
-      .get(params);
+      .getList(params);
   }
 
 

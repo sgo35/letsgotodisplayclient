@@ -4,7 +4,7 @@ import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 
 import { WeatherComponent } from '../weather/weather.component';
 import { WeatherModeEnum } from '../weather/interfaces/weatherMode.enum';
-import { City } from '../interfaces/city.interface';
+import { City, CityImpl } from '../interfaces/city.interface';
 import { CityService } from '../city/services/city.service';
 
 @Component({
@@ -24,7 +24,17 @@ export class MainComponent implements OnInit {
   }
 
   searchWeather(mode: WeatherModeEnum) {
-    this.weatherComponent.searchWeatherByCity(mode, this.formGroup.controls.city.value, 'fr');
+    console.log('searchWeather mode', mode, this.formGroup.controls.city.value);
+    let _city;
+    if (this.formGroup.controls.city.value.id) {
+      // City sélectionné
+      _city = this.formGroup.controls.city.value;
+    } else {
+      const query: string = <string>this.formGroup.controls.city.value;
+      const name: string = query;
+      _city = new CityImpl(name);
+    }
+    this.weatherComponent.searchWeatherByCity(mode, _city);
   }
 
 
@@ -38,11 +48,13 @@ export class MainComponent implements OnInit {
       .pipe(
         debounceTime(300),
         tap(() => this.isLoading = true),
-        switchMap(value =>
-          this.cityService.getfindCityByName(value, 'FR')
+        switchMap(value => {
+          console.log('city.valueChanges', value);
+          return this.cityService.getfindCityByName(<string>value, 'FR')
             .pipe(
               finalize(() => this.isLoading = false),
-            )
+            );
+        }
         )
       )
       .subscribe(cities => this.filteredCities = cities);
@@ -54,7 +66,7 @@ export class MainComponent implements OnInit {
   }
 
   displayFn(city: City) {
-    if (city) { return city.name + '[' + city.country + ']'; }
+    if (city) { return city.name + ' [' + city.country + ']'; }
   }
 
 }

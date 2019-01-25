@@ -19,17 +19,13 @@ export class WeatherDailyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions = new Array<Subscription>();
-    this.searchByCity(this.city);
+    this.search(this.city);
   }
 
-  searchByCity(city: City) {
-    return this.search(city.name, city.country);
-  }
-
-  search(cityName: string, countryName: string) {
+  search(_city: City) {
     this.weather = undefined;
     this.subscriptions.push(
-      this.weatherService.getfindWeatherDailyByCity(cityName, countryName).subscribe(
+      this.weatherService.getfindWeatherDailyByCity(_city).subscribe(
         data => {
           console.log('mode daily', data);
           this.weather = <WeatherDaily>data;
@@ -38,28 +34,28 @@ export class WeatherDailyComponent implements OnInit, OnDestroy {
           console.error(error);
         }
       ));
-    }
-    getDateTime(dt): Date {
-      return this.weatherService.getDateTime(dt);
-    }
+  }
+  getDateTime(dt): Date {
+    return this.weatherService.getDateTime(dt);
+  }
 
-    isDateDiff(dt_before: number, dt_current: number): boolean {
-      return this.weatherService.isDateDiff(dt_before, dt_current);
-    }
+  isDateDiff(dt_before: number, dt_current: number): boolean {
+    return this.weatherService.isDateDiff(dt_before, dt_current);
+  }
 
-    // getWeatherIconUrl(weather: Weather) {
-    //   return this.weatherService.getWeatherIconUrl(weather);
-    // }
+  // getWeatherIconUrl(weather: Weather) {
+  //   return this.weatherService.getWeatherIconUrl(weather);
+  // }
 
-    reset() {
-      this.weather = undefined;
-      for (const subscription of this.subscriptions) {
-        subscription.unsubscribe();
-        console.log('ngOnDestroy subscription daily', subscription);
-      }
-    }
-
-    ngOnDestroy() {
-      this.reset();
+  reset() {
+    this.weather = undefined;
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+      console.log('ngOnDestroy subscription daily', subscription);
     }
   }
+
+  ngOnDestroy() {
+    this.reset();
+  }
+}

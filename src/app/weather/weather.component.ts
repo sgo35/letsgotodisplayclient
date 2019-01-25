@@ -20,7 +20,7 @@ const uri_cities = '../../assets/json/city.list.json';
 })
 export class WeatherComponent implements OnInit, OnDestroy {
 
-  @Input() city: City;
+  // @Input() city: City;
   mode: WeatherModeEnum;
   subscriptions: Array<Subscription>;
 
@@ -31,11 +31,11 @@ export class WeatherComponent implements OnInit, OnDestroy {
   weatherCurrent: WeatherCurrent;
   weatherDaily: WeatherDaily;
 
-  // @Input() set city(city: string) {
-  //   this._city = city;
-  //   this.searchWeatherByCity('forecast', city);
-  // }
-  // get city() { return this._city; }
+  _city: City;
+  @Input() set city(city: City) {
+    this._city = city;
+  }
+  get city(): City { return this._city; }
 
   searchCityControl: FormControl = new FormControl();
 
@@ -51,11 +51,23 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.city = undefined;
   }
 
-  searchWeatherByCity(mode: WeatherModeEnum, cityName?: string, countryName?: string, nbDay?: number) {
+  searchWeatherByCity(mode: WeatherModeEnum, city: City, nbDay?: number) {
     this.init();
     this.mode = mode;
-    this.city = new CityImpl(cityName, countryName);
-    console.log('mode city', this.mode, this.city);
+    this.city = city;
+    console.log('mode city', mode, city);
+    switch (+mode) {
+      case WeatherModeEnum.Forecast:
+        console.log('weatherForecast city', mode, city, this.weatherForecast);
+        if (this.weatherForecast) {
+          this.weatherForecast.search(city);
+        }
+        break;
+
+      default:
+        console.error('searchWeatherByCity not found mode city', mode, city);
+        break;
+    }
   }
 
   //   searchCity(name: string){
@@ -78,7 +90,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.searchWeatherByCity(WeatherModeEnum.Forecast, this.city.name);
+    this.searchWeatherByCity(WeatherModeEnum.Forecast, new CityImpl(this.city.name, null));
     console.log('searchWeatherByCity', this.city);
   }
 

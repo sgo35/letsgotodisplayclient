@@ -1,4 +1,4 @@
-<form (ngSubmit)="searchWeather(weatherGroup.value)">
+<form>
   <div class="actions"
     [formGroup]="formGroup">
     <mat-form-field class="city">
@@ -10,11 +10,16 @@
     </mat-form-field>
 
     <span>Vous avez sélectionné : {{formGroup.get('city').value | json}}</span>
-  
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
+
+    <mat-autocomplete #auto="matAutocomplete"
+      [displayWith]="displayFn">
+      <mat-option *ngIf="isLoading"
+        class="is-loading">
+        <mat-spinner diameter="50"></mat-spinner>
+      </mat-option>
       <ng-container *ngIf="!isLoading">
-        <mat-option *ngFor="let city of filteredCities" [value]="city">
+        <mat-option *ngFor="let city of filteredCities"
+          [value]="city">
           <span>{{ city.name }}</span>
           <small> | ID: {{city.id}}</small>
         </mat-option>
@@ -23,7 +28,7 @@
 
     <button mat-raised-button
       color="primary"
-      type="submit"
+      (click)="searchWeather(weatherGroup.value)"
       class="btn btn-success">
       <i class="fas fa-search-location"></i>&nbsp;Rechercher
     </button>

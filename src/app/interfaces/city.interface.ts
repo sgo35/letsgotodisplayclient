@@ -19,8 +19,8 @@ export class CityImpl {
     population?: number;
 
     constructor(
-        name: string,
-        country: string,
+        name?: string,
+        country?: string,
         coord?: Coord,
         id?: number,
         population?: number) {

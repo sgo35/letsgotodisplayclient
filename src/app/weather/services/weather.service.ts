@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { Weather, WeatherForecast } from '../interfaces/weatherForecast.interface';
 import { AbstractTypedRestService } from '../../services/abstractTypedRest.service';
 import { Restangular } from 'ngx-restangular';
-import { ImagePixabay } from '../../interfaces/imagePixabay.interface';
 import { WeatherCurrent } from '../interfaces/weatherCurrent.interface';
 import { WeatherDaily } from '../interfaces/weatherDaily.interface';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { City } from 'src/app/interfaces/city.interface';
 
 const uri_base = 'http://openweathermap.org';
 
@@ -24,38 +24,56 @@ export class WeatherService extends AbstractTypedRestService<any> {
   }
 
   // Récupère la météo pour une commune donnée en paramètre
-  getfindWeatherForecastByCity(cityName: string, country?: string): Observable<WeatherForecast> {
-    const cityUri = encodeURIComponent(cityName);
-    console.log('getfindWeatherForecastByCity ', cityName, cityUri);
+  getfindWeatherForecastByCity(city: City): Observable<WeatherForecast> {
+    const params = {
+      city: city.id ? city.id : encodeURIComponent(city.name)
+      , page: 0
+      , size: 12
+    };
+    if (city.country) {
+      params['country'] = city.country;
+    }
+    console.log('getfindWeatherForecastByCity ', params);
     return this.getRestangular()
       .one('weather')
       .one('forecast')
-      .one(country ? country : '')
-      .one(cityUri)
-      .get();
+      .get(params);
   }
 
-  getfindWeatherDailyByCity(cityName: string, country?: string, nbDay?: number): Observable<WeatherDaily> {
-    const cityUri = encodeURIComponent(cityName);
-    console.log('getfindWeatherForecastByCity ', cityName, cityUri);
+  getfindWeatherDailyByCity(city: City, nbDay?: number): Observable<WeatherDaily> {
+    // const cityUri = encodeURIComponent(cityName);
+    const params = {
+      city: city.id ? city.id : encodeURIComponent(city.name)
+      , page: 0
+      , size: 10
+    };
+    if (city.country) {
+      params['country'] = city.country;
+    }
+    if (nbDay) {
+      params['cnt'] = nbDay;
+    }
+    console.log('getfindWeatherForecastByCity ', params);
     return this.getRestangular()
       .one('weather')
       .one('daily')
-      .one(country ? country : 'FR')
-      .one(cityUri)
-      .one(nbDay ? nbDay + '' : '7')
-      .get();
+      .get(params);
   }
 
-  getfindWeatherByCity(cityName: string, country?: string): Observable<WeatherCurrent> {
-    const cityUri = encodeURIComponent(cityName);
-    console.log('getfindWeatherByCity ', cityName, cityUri);
+  getfindWeatherByCity(city: City): Observable<WeatherCurrent> {
+    const params = {
+      city: city.id ? city.id : encodeURIComponent(city.name)
+      , page: 0
+      , size: 10
+    };
+    if (city.country) {
+      params['country'] = city.country;
+    }
+    console.log('getfindWeatherByCity ', params);
     return this.getRestangular()
       .one('weather')
       .one('current')
-      .one(country ? country : 'FR')
-      .one(cityUri)
-      .get();
+      .get(params);
   }
 
   async getWeatherIcon(weather: Weather) {

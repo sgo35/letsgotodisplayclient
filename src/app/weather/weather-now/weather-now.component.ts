@@ -23,47 +23,46 @@ export class WeatherNowComponent implements OnInit, OnDestroy {
   }
 
   searchByCity(city: City) {
-    return this.search(city.name, city.country);
+    return this.search(city);
   }
 
-  search(cityName: string, countryName: string) {
+  search(city: City) {
     this.weather = undefined;
-        this.subscriptions.push(
-          this.weatherService.getfindWeatherByCity(
-            cityName ? cityName : this.city.name
-            , countryName ? countryName : 'fr'
-          ).subscribe(
-            data => {
-              this.weather = <WeatherCurrent>data;
-            }
-            , error => {
-              console.error(error);
-            }
-          ));
+    this.subscriptions.push(
+      this.weatherService.getfindWeatherByCity(
+        city
+      ).subscribe(
+        data => {
+          this.weather = <WeatherCurrent>data;
+        }
+        , error => {
+          console.error(error);
+        }
+      ));
   }
-    getDateTime(dt): Date {
-      return this.weatherService.getDateTime(dt);
-    }
+  getDateTime(dt): Date {
+    return this.weatherService.getDateTime(dt);
+  }
 
-    isDateDiff(dt_before: number, dt_current: number): boolean {
-      return this.weatherService.isDateDiff(dt_before, dt_current);
-    }
+  isDateDiff(dt_before: number, dt_current: number): boolean {
+    return this.weatherService.isDateDiff(dt_before, dt_current);
+  }
 
-    // getWeatherIconUrl(weather: Weather) {
-    //   return this.weatherService.getWeatherIconUrl(weather);
-    // }
+  // getWeatherIconUrl(weather: Weather) {
+  //   return this.weatherService.getWeatherIconUrl(weather);
+  // }
 
-    reset() {
-      this.weather = undefined;
-      for (const subscription of this.subscriptions) {
-        subscription.unsubscribe();
-        console.log('ngOnDestroy subscription current', subscription);
-      }
-    }
-
-    ngOnDestroy() {
-      this.reset();
+  reset() {
+    this.weather = undefined;
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+      console.log('ngOnDestroy subscription current', subscription);
     }
   }
+
+  ngOnDestroy() {
+    this.reset();
+  }
+}
 
 

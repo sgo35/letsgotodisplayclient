@@ -6,13 +6,16 @@ import { UtilService } from '../services/util.service';
 import { MatCardModule, MatButtonModule, MatAutocompleteModule, MatInputModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { WeatherDailyComponent } from './weather-daily/weather-daily.component';
 import { WeatherNowComponent } from './weather-now/weather-now.component';
+import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 
 
 @NgModule({
-  declarations: [WeatherComponent, WeatherForecastComponent, WeatherDailyComponent, WeatherNowComponent],
+  declarations: [WeatherComponent
+    , WeatherForecastComponent
+    , WeatherDailyComponent
+    , WeatherNowComponent],
   imports: [
     CommonModule, BrowserAnimationsModule
     , HttpClientModule

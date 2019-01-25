@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WeatherService } from '../services/weather.service';
 import { Weather, WeatherForecast } from '../interfaces/weatherForecast.interface';
 import { City } from 'src/app/interfaces/city.interface';
+import { WeatherModeEnum } from '../interfaces/weatherMode.enum';
 
 @Component({
   selector: 'app-weather-forecast',
@@ -19,17 +20,18 @@ export class WeatherForecastComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions = new Array<Subscription>();
-    this.searchByCity(this.city);
+    this.search(this.city);
   }
 
-  searchByCity(city: City) {
-    return this.search(city.name, city.country);
-  }
+  // ngOnChanges(event) {
+  //   console.log('WeatherForecastComponent ngOnChanges', event);
+  // }
 
-  search(cityName: string, countryName: string) {
+  search(city: City) {
     this.weather = undefined;
+    console.log('search mode', WeatherModeEnum.Forecast, city);
     this.subscriptions.push(
-      this.weatherService.getfindWeatherForecastByCity(cityName, countryName).subscribe(
+      this.weatherService.getfindWeatherForecastByCity(city).subscribe(
         data => {
           console.log('mode forecast', data);
           this.weather = <WeatherForecast>data;
@@ -38,30 +40,30 @@ export class WeatherForecastComponent implements OnInit, OnDestroy {
           console.error(error);
         }
       ));
-    }
-    getDateTime(dt): Date {
-      return this.weatherService.getDateTime(dt);
-    }
+  }
+  getDateTime(dt): Date {
+    return this.weatherService.getDateTime(dt);
+  }
 
-    isDateDiff(dt_before: number, dt_current: number): boolean {
-      return this.weatherService.isDateDiff(dt_before, dt_current);
-    }
+  isDateDiff(dt_before: number, dt_current: number): boolean {
+    return this.weatherService.isDateDiff(dt_before, dt_current);
+  }
 
-    getWeatherIconUrl(weather: Weather) {
-      return this.weatherService.getWeatherIconUrl(weather);
-    }
+  getWeatherIconUrl(weather: Weather) {
+    return this.weatherService.getWeatherIconUrl(weather);
+  }
 
-    reset() {
-      this.weather = undefined;
-      for (const subscription of this.subscriptions) {
-        subscription.unsubscribe();
-        console.log('ngOnDestroy subscription forecast', subscription);
-      }
-    }
-
-    ngOnDestroy() {
-      this.reset();
+  reset() {
+    this.weather = undefined;
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+      console.log('ngOnDestroy subscription forecast', subscription);
     }
   }
+
+  ngOnDestroy() {
+    this.reset();
+  }
+}
 
 
