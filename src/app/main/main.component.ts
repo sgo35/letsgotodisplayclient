@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 
 import { WeatherComponent } from '../weather/weather.component';
 import { WeatherModeEnum } from '../weather/interfaces/weatherMode.enum';
 import { City, CityImpl } from '../interfaces/city.interface';
-import { CityService } from '../city/services/city.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -13,60 +11,37 @@ import { CityService } from '../city/services/city.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
-  formGroup: FormGroup;
+  // modeSelected: WeatherModeEnum;
   weatherModeEnum = WeatherModeEnum;
+  formGroup: FormGroup;
   @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
-  filteredCities: Array<City>;
-  isLoading = false;
 
-  constructor(private fb: FormBuilder, private cityService: CityService) {
+  constructor(private fb: FormBuilder) {
   }
-
-  searchWeather(mode: WeatherModeEnum) {
-    console.log('searchWeather mode', mode, this.formGroup.controls.city.value);
-    let _city;
-    if (this.formGroup.controls.city.value.id) {
-      // City sélectionné
-      _city = this.formGroup.controls.city.value;
-    } else {
-      const query: string = <string>this.formGroup.controls.city.value;
-      const name: string = query;
-      _city = new CityImpl(name);
-    }
-    this.weatherComponent.searchWeatherByCity(mode, _city);
-  }
-
 
   ngOnInit() {
     this.formGroup = this.fb.group({
-      'city': null
+      'mode': WeatherModeEnum.Forecast
     });
-    this.filteredCities = new Array<City>();
-    this.isLoading = true;
-    this.formGroup.controls.city.valueChanges
-      .pipe(
-        debounceTime(300),
-        tap(() => this.isLoading = true),
-        switchMap(value => {
-          console.log('city.valueChanges', value);
-          return this.cityService.getfindCityByName(<string>value, 'FR')
-            .pipe(
-              finalize(() => this.isLoading = false),
-            );
-        }
-        )
-      )
-      .subscribe(cities => this.filteredCities = cities);
-    // this.cityService.getCities().subscribe(data => {
-    //   console.log('cityService.getCities', data);
-    //   this.cities = data;
-    //   this.isLoading = false;
-    // }, error => console.error('cityService error', error));
+
   }
 
-  displayFn(city: City) {
-    if (city) { return city.name + ' [' + city.country + ']'; }
+  // onModeWeatherChange(event: WeatherModeEnum) {
+  //   this.modeSelected = event;
+  //   console.log('onModeWeatherChange mode', event);
+  // }
+
+  changeCity(event: City) {
+    if (this.weatherComponent) {
+      this.searchWeather(this.formGroup.controls.mode.value, event);
+    } else {
+      console.error('changeCity weatherComponent not loaded', event);
+    }
+  }
+
+  searchWeather(mode: WeatherModeEnum, _city: City) {
+    console.log('searchWeather mode', mode, _city);
+    this.weatherComponent.searchWeatherByCity(mode, _city);
   }
 
 }

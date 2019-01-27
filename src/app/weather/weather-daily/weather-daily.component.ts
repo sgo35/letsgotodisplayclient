@@ -19,7 +19,6 @@ export class WeatherDailyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions = new Array<Subscription>();
-    this.search(this.city);
   }
 
   search(_city: City) {
@@ -51,11 +50,12 @@ export class WeatherDailyComponent implements OnInit, OnDestroy {
     this.weather = undefined;
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
-      console.log('ngOnDestroy subscription daily', subscription);
+      console.log('reset subscription daily', subscription);
     }
   }
 
   ngOnDestroy() {
     this.reset();
+    console.log('ngOnDestroy WeatherDailyComponent');
   }
 }

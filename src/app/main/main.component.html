@@ -1,40 +1,7 @@
 <form>
-  <div class="actions"
-    [formGroup]="formGroup">
-    <mat-form-field class="city">
-      <input matInput
-        type="text"
-        placehoder="Saisissez le ou les mot-clés"
-        formControlName="city"
-        [matAutocomplete]="auto">
-    </mat-form-field>
-
-    <span>Vous avez sélectionné : {{formGroup.get('city').value | json}}</span>
-
-    <mat-autocomplete #auto="matAutocomplete"
-      [displayWith]="displayFn">
-      <mat-option *ngIf="isLoading"
-        class="is-loading">
-        <mat-spinner diameter="50"></mat-spinner>
-      </mat-option>
-      <ng-container *ngIf="!isLoading">
-        <mat-option *ngFor="let city of filteredCities"
-          [value]="city">
-          <span>{{ city.name }}</span>
-          <small> | ID: {{city.id}}</small>
-        </mat-option>
-      </ng-container>
-    </mat-autocomplete>
-
-    <button mat-raised-button
-      color="primary"
-      (click)="searchWeather(weatherGroup.value)"
-      class="btn btn-success">
-      <i class="fas fa-search-location"></i>&nbsp;Rechercher
-    </button>
-  </div>
+  <app-city (change)="changeCity($event)"></app-city>
   <div class="flex-container">
-    <div class="news">
+    <!-- <div class="news">
       <h2>Actualité</h2>
       <mat-button-toggle-group #newsGroup="matButtonToggleGroup"
         aria-label="Actualité"
@@ -43,10 +10,10 @@
         <mat-button-toggle value="yesterday">Hier</mat-button-toggle>
         <mat-button-toggle value="week">sur 7 jours</mat-button-toggle>
       </mat-button-toggle-group>
-    </div>
+    </div> -->
     <div class="weather">
       <h2>Météo</h2>
-      <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
+      <mat-button-toggle-group name="mode" #weatherGroup="matButtonToggleGroup"
         aria-label="Météo"
         value="{{ weatherModeEnum.Forecast }}">
         <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>

@@ -29,9 +29,8 @@ export class WeatherNowComponent implements OnInit, OnDestroy {
   search(city: City) {
     this.weather = undefined;
     this.subscriptions.push(
-      this.weatherService.getfindWeatherByCity(
-        city
-      ).subscribe(
+      this.weatherService.getfindWeatherByCity(city)
+      .subscribe(
         data => {
           this.weather = <WeatherCurrent>data;
         }
@@ -56,12 +55,13 @@ export class WeatherNowComponent implements OnInit, OnDestroy {
     this.weather = undefined;
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
-      console.log('ngOnDestroy subscription current', subscription);
+      console.log('reset subscription current', subscription);
     }
   }
 
   ngOnDestroy() {
     this.reset();
+    console.log('ngOnDestroy WeatherNowComponent');
   }
 }
 

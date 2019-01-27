@@ -10,6 +10,8 @@ import { WeatherCurrent } from './interfaces/weatherCurrent.interface';
 import { WeatherDaily } from './interfaces/weatherDaily.interface';
 import { WeatherModeEnum } from './interfaces/weatherMode.enum';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
+import { WeatherNowComponent } from './weather-now/weather-now.component';
+import { WeatherDailyComponent } from './weather-daily/weather-daily.component';
 
 const uri_cities = '../../assets/json/city.list.json';
 
@@ -20,24 +22,21 @@ const uri_cities = '../../assets/json/city.list.json';
 })
 export class WeatherComponent implements OnInit, OnDestroy {
 
-  // @Input() city: City;
-  mode: WeatherModeEnum;
   subscriptions: Array<Subscription>;
-
   weatherModeEnum = WeatherModeEnum;
-  // cities: Array<City>;
 
+  city: City;
+  @Input() mode: WeatherModeEnum;
+  // _city: City;
+  // @Input() set city(city: City) {
+  //   this._city = city;
+  // }
+  // get city(): City { return this._city; }
   @ViewChild('weatherForecast') weatherForecast: WeatherForecastComponent;
-  weatherCurrent: WeatherCurrent;
-  weatherDaily: WeatherDaily;
+  @ViewChild('weatherDaily') weatherDaily: WeatherDailyComponent;
+  @ViewChild('weatherNow') weather: WeatherNowComponent;
 
-  _city: City;
-  @Input() set city(city: City) {
-    this._city = city;
-  }
-  get city(): City { return this._city; }
-
-  searchCityControl: FormControl = new FormControl();
+  // searchCityControl: FormControl = new FormControl();
 
   constructor(private weatherService: WeatherService) { }
 
@@ -47,12 +46,11 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   init() {
     this.subscriptions = new Array<Subscription>();
-    this.mode = undefined;
-    this.city = undefined;
+    // this.mode = WeatherModeEnum.Forecast;
   }
 
   searchWeatherByCity(mode: WeatherModeEnum, city: City, nbDay?: number) {
-    this.init();
+    // this.init();
     this.mode = mode;
     this.city = city;
     console.log('mode city', mode, city);
@@ -61,6 +59,8 @@ export class WeatherComponent implements OnInit, OnDestroy {
         console.log('weatherForecast city', mode, city, this.weatherForecast);
         if (this.weatherForecast) {
           this.weatherForecast.search(city);
+        } else {
+          console.error('this.weatherForecast not loaded', mode, city);
         }
         break;
 
@@ -96,6 +96,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // this.reset();
+    console.log('ngOnDestroy WeatherComponent');
   }
 
 }

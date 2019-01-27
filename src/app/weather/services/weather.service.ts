@@ -28,7 +28,7 @@ export class WeatherService extends AbstractTypedRestService<any> {
     const params = {
       city: city.id ? city.id : encodeURIComponent(city.name)
       , page: 0
-      , size: 12
+      , limit: 12
     };
     if (city.country) {
       params['country'] = city.country;
@@ -45,15 +45,13 @@ export class WeatherService extends AbstractTypedRestService<any> {
     const params = {
       city: city.id ? city.id : encodeURIComponent(city.name)
       , page: 0
-      , size: 10
+      , limit: 10
     };
     if (city.country) {
       params['country'] = city.country;
     }
-    if (nbDay) {
-      params['cnt'] = nbDay;
-    }
-    console.log('getfindWeatherForecastByCity ', params);
+    params['cnt'] = nbDay ? nbDay + '' : '7';
+    console.log('getfindWeatherDailyByCity ', params);
     return this.getRestangular()
       .one('weather')
       .one('daily')
@@ -64,7 +62,7 @@ export class WeatherService extends AbstractTypedRestService<any> {
     const params = {
       city: city.id ? city.id : encodeURIComponent(city.name)
       , page: 0
-      , size: 10
+      , limit: 10
     };
     if (city.country) {
       params['country'] = city.country;

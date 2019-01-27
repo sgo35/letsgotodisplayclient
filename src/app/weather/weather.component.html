@@ -1,6 +1,8 @@
-<div class="weather"
-  #weather>
-  <div class="container"
+<div *ngIf="weather">
+  <app-weather-forecast [hidden]="+mode === weatherModeEnum.Forecast" [city]="city"></app-weather-forecast>
+  <app-weather-daily [hidden]="+mode === weatherModeEnum.Daily" [city]="city"></app-weather-daily>
+  <app-weather-now [hidden]="+mode === weatherModeEnum.Current" [city]="city"></app-weather-now>
+  <!-- <div class="container"
     [ngSwitch]="+mode">
     <div *ngSwitchCase="weatherModeEnum.Forecast">
       <app-weather-forecast [city]="city"></app-weather-forecast>
@@ -14,6 +16,5 @@
     <div *ngSwitchDefault>
       Sélectionnez un mode...
     </div>
-  </div>
-
+  </div> -->
 </div>

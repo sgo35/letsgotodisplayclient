@@ -11,7 +11,7 @@ export interface Coord {
     lon: number;
 }
 
-export class CityImpl {
+export class CityImpl implements City {
     id?: number;
     name: string;
     coord?: Coord;
@@ -21,8 +21,8 @@ export class CityImpl {
     constructor(
         name?: string,
         country?: string,
-        coord?: Coord,
         id?: number,
+        coord?: Coord,
         population?: number) {
         this.name = name;
         this.country = country;

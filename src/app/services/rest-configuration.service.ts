@@ -122,7 +122,7 @@ export class RestConfigurationService {
               data[dataEmbeddedKey] = dataEmbedded;
             } else {
               data[dataEmbeddedKey] = data._embedded[dataEmbeddedKey];
-              this.removeContent(dataEmbedded, url);
+              // this.removeContent(dataEmbedded, url);
             }
           }
         }
@@ -131,7 +131,8 @@ export class RestConfigurationService {
       }
       delete data._embedded;
     }
-    return this.removeContent(data, url);
+    return data;
+    // return this.removeContent(data, url);
   }
 
   private removeContent(data: any, url: string) {
