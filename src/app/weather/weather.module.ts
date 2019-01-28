@@ -15,12 +15,18 @@ import { WeatherForecastComponent } from './weather-forecast/weather-forecast.co
   declarations: [WeatherComponent
     , WeatherForecastComponent
     , WeatherDailyComponent
-    , WeatherNowComponent],
-  imports: [
+    , WeatherNowComponent
+  ]
+  , imports: [
     CommonModule, BrowserAnimationsModule
     , HttpClientModule
     , MatCardModule, MatButtonModule, MatAutocompleteModule, MatInputModule
   ]
+  // , entryComponents: [
+  //   , WeatherForecastComponent
+  //   , WeatherDailyComponent
+  //   , WeatherNowComponent
+  // ]
   , exports: [
     WeatherComponent
   ]

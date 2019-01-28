@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { WeatherComponent } from '../weather/weather.component';
 import { WeatherModeEnum } from '../weather/interfaces/weatherMode.enum';
-import { City, CityImpl } from '../interfaces/city.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { City } from '../interfaces/city.interface';
+import { Rectangle } from 'ngx-widget-grid';
 
 @Component({
   selector: 'app-main',
@@ -11,29 +11,35 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  // modeSelected: WeatherModeEnum;
+  modeSelected: WeatherModeEnum;
   weatherModeEnum = WeatherModeEnum;
-  formGroup: FormGroup;
+  weatherMode: WeatherModeEnum = WeatherModeEnum.Forecast;
+  // sidenavOpen: boolean;
+  rectangleDefault: Rectangle = new Rectangle({ top: 2, left: 2, height: 1, width: 1 });
   @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.formGroup = this.fb.group({
-      'mode': WeatherModeEnum.Forecast
-    });
-
   }
 
-  // onModeWeatherChange(event: WeatherModeEnum) {
-  //   this.modeSelected = event;
-  //   console.log('onModeWeatherChange mode', event);
-  // }
+
+  onWidgetChange(event) {
+    console.log('onWidgetChange', event);
+  }
+  onModeWeatherChange(event: WeatherModeEnum) {
+    this.modeSelected = event;
+    console.log('onModeWeatherChange mode', event);
+  }
+
+  changeWeatherMode(event) {
+    this.weatherMode = event;
+  }
 
   changeCity(event: City) {
     if (this.weatherComponent) {
-      this.searchWeather(this.formGroup.controls.mode.value, event);
+      this.searchWeather(this.weatherMode, event);
     } else {
       console.error('changeCity weatherComponent not loaded', event);
     }

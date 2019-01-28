@@ -19,25 +19,20 @@ export class WeatherNowComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions = new Array<Subscription>();
-    this.searchByCity(this.city);
-  }
-
-  searchByCity(city: City) {
-    return this.search(city);
   }
 
   search(city: City) {
     this.weather = undefined;
     this.subscriptions.push(
       this.weatherService.getfindWeatherByCity(city)
-      .subscribe(
-        data => {
-          this.weather = <WeatherCurrent>data;
-        }
-        , error => {
-          console.error(error);
-        }
-      ));
+        .subscribe(
+          data => {
+            this.weather = <WeatherCurrent>data;
+          }
+          , error => {
+            console.error(error);
+          }
+        ));
   }
   getDateTime(dt): Date {
     return this.weatherService.getDateTime(dt);

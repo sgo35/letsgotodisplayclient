@@ -9,3 +9,7 @@
 .flex-container > * {
     flex : 0 20%;
 }
+
+.sidenav-container {
+    height: 800px;
+}

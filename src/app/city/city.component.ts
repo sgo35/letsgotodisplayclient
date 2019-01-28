@@ -33,15 +33,15 @@ export class CityComponent implements OnInit {
         switchMap(value => {
           console.log('city.valueChanges', value);
           return this.cityService.getfindCityByName(<string>value, 'FR')
-          .pipe(
-            finalize(() => this.isLoading = false),
+            .pipe(
+              finalize(() => this.isLoading = false),
             )
             ;
         })
       )
       .subscribe((page: Page<City>) => {
-          console.log('city.valueChanges result', this.filteredCities, page);
-          this.filteredCities = page.content as City[];
+        console.log('city.valueChanges result', this.filteredCities, page);
+        this.filteredCities = page.content as City[];
       });
 
   }

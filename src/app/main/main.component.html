@@ -13,9 +13,9 @@
     </div> -->
     <div class="weather">
       <h2>Météo</h2>
-      <mat-button-toggle-group name="mode" #weatherGroup="matButtonToggleGroup"
+      <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
         aria-label="Météo"
-        value="{{ weatherModeEnum.Forecast }}">
+        [value]="weatherMode">
         <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>
         <mat-button-toggle value="{{ weatherModeEnum.Forecast }}">toutes les 3 heures</mat-button-toggle>
         <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
@@ -55,5 +55,41 @@
       <p>I'm visible because I am open</p>
     </mat-expansion-panel>
   </mat-accordion> -->
-  <app-weather #weatherComponent></app-weather>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav
+      mode="side">
+      <p><button mat-button
+          (click)="sidenav.toggle()">Fermer</button></p>
+      <p>Menu</p>
+      <div>Coucou c'est le panneau de config</div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <button mat-button
+        (click)="sidenav.toggle()">
+        <i class="material-icons">menu</i>
+      </button>
+      <div>
+        <ngx-widget-grid [rows]="4"
+          [columns]="5"
+          [highlightNextPosition]="false"
+          [showGrid]="true"
+          (widgetPositionChange)="onWidgetChange($event)">
+          <ngx-widget [(position)]="rectangleDefault"
+            [movable]="true"
+            [resizable]="true">
+            <div style="height:100%;width:100%; display:flex;">
+              <div style="height:100%;width:100%; padding:10px; background-color: rgb(140, 198, 0);">
+                <div>Quel temps fait-il aujourd'hui</div>
+                <app-weather #weatherComponent></app-weather>
+
+              </div>
+            </div>
+          </ngx-widget>
+        </ngx-widget-grid>
+
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
 </form>

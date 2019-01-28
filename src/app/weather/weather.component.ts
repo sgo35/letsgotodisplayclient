@@ -1,19 +1,13 @@
 import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { WeatherService } from './services/weather.service';
 import { City, CityImpl } from '../interfaces/city.interface';
-import { Weather, WeatherForecast } from './interfaces/weatherForecast.interface';
-import { WeatherCurrent } from './interfaces/weatherCurrent.interface';
-import { WeatherDaily } from './interfaces/weatherDaily.interface';
+import { Weather } from './interfaces/weatherForecast.interface';
 import { WeatherModeEnum } from './interfaces/weatherMode.enum';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { WeatherNowComponent } from './weather-now/weather-now.component';
 import { WeatherDailyComponent } from './weather-daily/weather-daily.component';
-
-const uri_cities = '../../assets/json/city.list.json';
 
 @Component({
   selector: 'app-weather',
@@ -26,7 +20,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
   weatherModeEnum = WeatherModeEnum;
 
   city: City;
-  @Input() mode: WeatherModeEnum;
+  @Input() mode: WeatherModeEnum = WeatherModeEnum.Forecast;
   // _city: City;
   // @Input() set city(city: City) {
   //   this._city = city;
@@ -46,7 +40,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   init() {
     this.subscriptions = new Array<Subscription>();
-    // this.mode = WeatherModeEnum.Forecast;
   }
 
   searchWeatherByCity(mode: WeatherModeEnum, city: City, nbDay?: number) {
@@ -60,7 +53,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
         if (this.weatherForecast) {
           this.weatherForecast.search(city);
         } else {
-          console.error('this.weatherForecast not loaded', mode, city);
+          console.error('weatherForecast not loaded', mode, city);
         }
         break;
 

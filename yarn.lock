@@ -4696,6 +4696,13 @@ ngx-restangular@^4.0.1:
     "@types/lodash" "^4.14.62"
     tslib "^1.9.0"
 
+ngx-widget-grid@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-widget-grid/-/ngx-widget-grid-6.0.1.tgz#4a48061fe2e43f7eb8ebb107519d7c08b32f8775"
+  integrity sha512-RtVCwnTK1B8oawzanEVd5ZbUqbdxvsW9+h4fFiJj26NOGa0iVSjZ/8AxmMS/gNkFjkbQ2DNC0rhApeaNydZU/A==
+  dependencies:
+    tslib "^1.9.0"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"

@@ -26,7 +26,6 @@ registerLocaleData(localeFr, 'fr');
     , BrowserAnimationsModule
     , RestangularModule.forRoot([RestConfigurationService], restangularConfigFactory)
     , HeaderModule, MainModule
-
   ],
   providers: [
     AppService
