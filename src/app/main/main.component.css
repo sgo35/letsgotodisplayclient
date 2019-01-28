@@ -13,3 +13,6 @@
 .sidenav-container {
     height: 800px;
 }
+.right {
+    float: right;
+}

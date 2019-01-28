@@ -17,20 +17,27 @@ export class MainComponent implements OnInit {
   // sidenavOpen: boolean;
   rectangleDefault: Rectangle = new Rectangle({ top: 2, left: 2, height: 1, width: 1 });
   @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
+  sidenavOpened: boolean;
 
   constructor() {
   }
 
   ngOnInit() {
+    this.sidenavOpened = false;
   }
-
 
   onWidgetChange(event) {
     console.log('onWidgetChange', event);
   }
+
   onModeWeatherChange(event: WeatherModeEnum) {
     this.modeSelected = event;
     console.log('onModeWeatherChange mode', event);
+  }
+
+  onPositionChanged(event) {
+    console.log('onPositionChanged', event);
+    this.sidenavOpened = event;
   }
 
   changeWeatherMode(event) {

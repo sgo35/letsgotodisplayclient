@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatButtonToggleModule, MatSidenavModule } from '@angular/material';
+import { MatButtonModule, MatButtonToggleModule, MatSidenavModule, MatIconModule } from '@angular/material';
 import { NgxWidgetGridModule } from 'ngx-widget-grid';
 
 import { MainComponent } from './main.component';
@@ -13,7 +13,7 @@ import { CityModule } from '../city/city.module';
   imports: [
     CommonModule
     , FormsModule, ReactiveFormsModule
-    , MatButtonModule, MatButtonToggleModule, MatSidenavModule
+    , MatButtonModule, MatButtonToggleModule, MatSidenavModule, MatIconModule
     , NgxWidgetGridModule
     , CityModule
     , WeatherModule

@@ -11,16 +11,6 @@
         <mat-button-toggle value="week">sur 7 jours</mat-button-toggle>
       </mat-button-toggle-group>
     </div> -->
-    <div class="weather">
-      <h2>Météo</h2>
-      <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
-        aria-label="Météo"
-        [value]="weatherMode">
-        <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>
-        <mat-button-toggle value="{{ weatherModeEnum.Forecast }}">toutes les 3 heures</mat-button-toggle>
-        <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
   </div>
 
   <!-- <mat-accordion>
@@ -55,20 +45,22 @@
       <p>I'm visible because I am open</p>
     </mat-expansion-panel>
   </mat-accordion> -->
-  <mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-container class="sidenav-container" autosize>
     <mat-sidenav #sidenav
-      mode="side">
-      <p><button mat-button
-          (click)="sidenav.toggle()">Fermer</button></p>
+      mode="side" (openedChange)="onPositionChanged($event)">
+      <!-- <button mat-icon-button class="right"
+      (click)="sidenav.toggle()">
+      <i class="fas fa-angle-double-right"></i>
+    </button> -->
       <p>Menu</p>
       <div>Coucou c'est le panneau de config</div>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <button mat-button
-        (click)="sidenav.toggle()">
-        <i class="material-icons">menu</i>
-      </button>
+      <button mat-icon-button
+      (click)="sidenav.toggle()">
+          <i class="fas fa-angle-double-right" [class.fa-rotate-180]="sidenavOpened"></i>
+        </button>
       <div>
         <ngx-widget-grid [rows]="4"
           [columns]="5"
@@ -80,9 +72,19 @@
             [resizable]="true">
             <div style="height:100%;width:100%; display:flex;">
               <div style="height:100%;width:100%; padding:10px; background-color: rgb(140, 198, 0);">
-                <div>Quel temps fait-il aujourd'hui</div>
+                  <div class="weather">
+                    <h2>Météo</h2>
+                    <em>Quel temps fait-il aujourd'hui ?</em>
+                    <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
+                      aria-label="Météo"
+                      [value]="weatherMode">
+                      <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>
+                      <mat-button-toggle value="{{ weatherModeEnum.Forecast }}">toutes les 3 heures</mat-button-toggle>
+                      <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
+                    </mat-button-toggle-group>
+                  </div>
+              
                 <app-weather #weatherComponent></app-weather>
-
               </div>
             </div>
           </ngx-widget>
