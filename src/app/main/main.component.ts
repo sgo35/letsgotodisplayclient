@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   weatherModeEnum = WeatherModeEnum;
   weatherMode: WeatherModeEnum = WeatherModeEnum.Forecast;
   // sidenavOpen: boolean;
-  rectangleDefault: Rectangle = new Rectangle({ top: 2, left: 2, height: 1, width: 1 });
+  rectangleDefault: Rectangle = new Rectangle({ top: 2, left: 2, height: 3, width: 2 });
   @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
   sidenavOpened: boolean;
 
