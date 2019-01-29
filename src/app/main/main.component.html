@@ -4,7 +4,7 @@
     <!-- <div class="news">
       <h2>Actualité</h2>
       <mat-button-toggle-group #newsGroup="matButtonToggleGroup"
-        aria-label="Actualité"
+      aria-label="Actualité"
         value="news">
         <mat-button-toggle value="today">Aujourd'hui</mat-button-toggle>
         <mat-button-toggle value="yesterday">Hier</mat-button-toggle>
@@ -23,19 +23,19 @@
           Type your name and age
         </mat-panel-description>
       </mat-expansion-panel-header>
-  
+      
       <mat-form-field>
         <input matInput placeholder="First name">
       </mat-form-field>
-  
+      
       <mat-form-field>
         <input matInput placeholder="Age">
       </mat-form-field>
     </mat-expansion-panel>
     <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
+    (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
           Self aware panel
         </mat-panel-title>
         <mat-panel-description>
@@ -45,49 +45,87 @@
       <p>I'm visible because I am open</p>
     </mat-expansion-panel>
   </mat-accordion> -->
-  <mat-sidenav-container class="sidenav-container" autosize>
+  <mat-sidenav-container class="sidenav-container"
+    autosize>
     <mat-sidenav #sidenav
-      mode="side" (openedChange)="onPositionChanged($event)">
+      mode="side"
+      (openedChange)="onPositionChanged($event)">
       <!-- <button mat-icon-button class="right"
       (click)="sidenav.toggle()">
       <i class="fas fa-angle-double-right"></i>
     </button> -->
       <p>Menu</p>
       <div>Coucou c'est le panneau de config</div>
+      <button matButton
+        (click)="addWidget()">Ajouter cadre</button>
     </mat-sidenav>
 
     <mat-sidenav-content>
       <button mat-icon-button
-      (click)="sidenav.toggle()">
-          <i class="fas fa-angle-double-right" [class.fa-rotate-180]="sidenavOpened"></i>
-        </button>
+        (click)="sidenav.toggle()">
+        <i class="fas fa-angle-double-right"
+          [class.fa-rotate-180]="sidenavOpened"></i>
+      </button>
       <div>
-        <ngx-widget-grid [rows]="4"
-          [columns]="5"
+        <ngx-widget-grid #grid
+          [rows]="6"
+          [columns]="6"
           [highlightNextPosition]="false"
           [showGrid]="true"
           (widgetPositionChange)="onWidgetChange($event)">
-          <ngx-widget [(position)]="rectangleDefault"
-            [movable]="true"
-            [resizable]="true">
+          <ngx-widget *ngFor="let widget of widgets;let $index = index;"
+            [position]="widget"
+            [movable]="editable"
+            [resizable]="editable"
+            [swapOnMove]="swapWidgets">
             <div style="height:100%;width:100%; display:flex;">
-              <div style="height:100%;width:100%; padding:10px; background-color: rgb(140, 198, 0);">
-                  <div class="weather">
-                    <h2>Météo</h2>
-                    <em>Quel temps fait-il aujourd'hui ?</em>
-                    <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
-                      aria-label="Météo"
-                      [value]="weatherMode">
-                      <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>
-                      <mat-button-toggle value="{{ weatherModeEnum.Forecast }}">toutes les 3 heures</mat-button-toggle>
-                      <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
-                    </mat-button-toggle-group>
-                  </div>
-              
+              <div class="my-widgets"
+                style="height:100%;width:100%; padding:10px;"
+                [ngStyle]="{'background-color':widget.color}">
+                <mat-icon shape="trash"
+                  class="clickable"
+                  (click)="askDeleteWidget($index)"
+                  *ngIf="editable"></mat-icon>
+                <div class="weather">
+                  <h2>Météo</h2>
+                  <em>Quel temps fait-il aujourd'hui ?</em>
+                  <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
+                    aria-label="Météo"
+                    [value]="weatherMode">
+                    <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>
+                    <mat-button-toggle value="{{ weatherModeEnum.Forecast }}">toutes les 3 heures</mat-button-toggle>
+                    <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+
                 <app-weather #weatherComponent></app-weather>
               </div>
             </div>
           </ngx-widget>
+
+
+
+          <!-- <ngx-widget [(position)]="rectangleDefault"
+            [movable]="true"
+            [resizable]="true">
+            <div style="height:100%;width:100%; display:flex;">
+              <div style="height:100%;width:100%; padding:10px; background-color: rgb(140, 198, 0);">
+                <div class="weather">
+                  <h2>Météo</h2>
+                  <em>Quel temps fait-il aujourd'hui ?</em>
+                  <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
+                    aria-label="Météo"
+                    [value]="weatherMode">
+                    <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>
+                    <mat-button-toggle value="{{ weatherModeEnum.Forecast }}">toutes les 3 heures</mat-button-toggle>
+                    <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+
+                <app-weather #weatherComponent></app-weather>
+              </div>
+            </div>
+          </ngx-widget> -->
         </ngx-widget-grid>
 
       </div>
