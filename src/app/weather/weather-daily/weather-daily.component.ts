@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WeatherDaily } from '../interfaces/weatherDaily.interface';
 import { WeatherService } from '../services/weather.service';
-import { City } from 'src/app/interfaces/city.interface';
+import { City } from 'src/app/weather/interfaces/city.interface';
 
 @Component({
   selector: 'app-weather-daily',

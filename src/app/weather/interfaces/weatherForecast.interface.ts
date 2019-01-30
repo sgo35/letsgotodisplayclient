@@ -1,4 +1,4 @@
-import { City } from '../../interfaces/city.interface';
+import { City } from './city.interface';
 
 export interface WeatherForecast {
     cod: string;

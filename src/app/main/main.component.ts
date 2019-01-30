@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { WeatherComponent } from '../weather/weather.component';
 import { WeatherModeEnum } from '../weather/interfaces/weatherMode.enum';
-import { City } from '../interfaces/city.interface';
+import { City } from '../weather/interfaces/city.interface';
 import { Rectangle, NgxWidgetGridComponent } from 'ngx-widget-grid';
 import { Widget } from '../interfaces/widget.interface';
 
@@ -12,16 +12,17 @@ import { Widget } from '../interfaces/widget.interface';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  city: City;
   modeSelected: WeatherModeEnum;
   weatherModeEnum = WeatherModeEnum;
   weatherMode: WeatherModeEnum = WeatherModeEnum.Forecast;
   // sidenavOpen: boolean;
-  rectangleDefault: Rectangle = new Rectangle({ top: 2, left: 2, height: 3, width: 2 });
+  // rectangleDefault: Rectangle = new Rectangle({ top: 2, left: 2, height: 3, width: 2 });
   @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
   @ViewChild('grid') grid: NgxWidgetGridComponent;
   public rows = 6;
   public cols = 6;
-  public widgets: any[] = [];
+  public widgets: Widget[] = [];
   public showGrid = false;
   public swapWidgets = false;
 
@@ -42,6 +43,10 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.sidenavOpened = false;
+    // *** Pour test
+    // this.editable = true;
+    this.addWidget('WeatherComponent');
+    // ***
   }
 
   onWidgetChange(event) {
@@ -53,9 +58,16 @@ export class MainComponent implements OnInit {
     console.log('onModeWeatherChange mode', event);
   }
 
+  onActivateEdit(event: boolean) {
+    this.editable = event;
+  }
+
   onPositionChanged(event) {
     console.log('onPositionChanged', event);
     this.sidenavOpened = event;
+    if (this.sidenavOpened) {
+      this.editable = true;
+    }
   }
 
   changeWeatherMode(event) {
@@ -63,6 +75,7 @@ export class MainComponent implements OnInit {
   }
 
   changeCity(event: City) {
+    this.city = event;
     if (this.weatherComponent) {
       this.searchWeather(this.weatherMode, event);
     } else {
@@ -70,11 +83,11 @@ export class MainComponent implements OnInit {
     }
   }
 
-  addWidget() {
-    const nextPosition: Rectangle = this.grid.getNextPosition();
-    if (nextPosition) {
+  addWidget(_component: any) {
+    const _nextPosition: Rectangle = this.grid.getNextPosition();
+    if (_nextPosition) {
       // const _widget = { color: this.generateHslaColors(), ...nextPosition };
-      const _widget: any = { color: this.generateHslaColors(), ...nextPosition };
+      const _widget: Widget = { color: this.generateHslaColors(), rectangle: _nextPosition, component: _component };
 
       this.widgets.push(_widget);
     } else {

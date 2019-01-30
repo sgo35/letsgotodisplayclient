@@ -6,7 +6,7 @@ import { Restangular } from 'ngx-restangular';
 import { WeatherCurrent } from '../interfaces/weatherCurrent.interface';
 import { WeatherDaily } from '../interfaces/weatherDaily.interface';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { City } from 'src/app/interfaces/city.interface';
+import { City } from 'src/app/weather/interfaces/city.interface';
 
 const uri_base = 'http://openweathermap.org';
 

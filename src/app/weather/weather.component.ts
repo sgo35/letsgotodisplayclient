@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { WeatherService } from './services/weather.service';
-import { City, CityImpl } from '../interfaces/city.interface';
+import { City, CityImpl } from './interfaces/city.interface';
 import { Weather } from './interfaces/weatherForecast.interface';
 import { WeatherModeEnum } from './interfaces/weatherMode.enum';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
@@ -19,7 +19,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
   subscriptions: Array<Subscription>;
   weatherModeEnum = WeatherModeEnum;
 
-  city: City;
+  @Input() city: City;
   @Input() mode: WeatherModeEnum = WeatherModeEnum.Forecast;
   // _city: City;
   // @Input() set city(city: City) {

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { City, CityImpl } from 'src/app/interfaces/city.interface';
+import { City } from '../../interfaces/city.interface';
 import { AbstractTypedRestService } from 'src/app/services/abstractTypedRest.service';
 import { Restangular } from 'ngx-restangular';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { tap, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { Page } from 'src/app/interfaces/page.interface';
 
 @Injectable({
@@ -30,16 +29,10 @@ export class CityService extends AbstractTypedRestService<City> {
     const cityUri = encodeURIComponent(cityName);
     const params = { name: cityUri, country: country, page: '0', limit: '10' };
     console.log('getfindCityByName ', params);
-
-//     return this.http.get<Page<City>>('/api/cities/search', {
-//       headers: httpHeaders,
-//       params: httpParams,
-//       responseType: 'json'
-// });
     return this.getRestangular()
-    .one('cities')
-    .one('search')
-    .get(params);
+      .one('cities')
+      .one('search')
+      .get(params);
   }
 
 

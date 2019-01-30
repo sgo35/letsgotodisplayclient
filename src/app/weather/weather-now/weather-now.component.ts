@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { City } from 'src/app/interfaces/city.interface';
+import { City } from 'src/app/weather/interfaces/city.interface';
 import { WeatherService } from '../services/weather.service';
 import { WeatherCurrent } from '../interfaces/weatherCurrent.interface';
 
@@ -22,7 +22,7 @@ export class WeatherNowComponent implements OnInit, OnDestroy {
   }
 
   search(city: City) {
-    this.weather = undefined;
+    this.reset();
     this.subscriptions.push(
       this.weatherService.getfindWeatherByCity(city)
         .subscribe(
@@ -48,14 +48,14 @@ export class WeatherNowComponent implements OnInit, OnDestroy {
 
   reset() {
     this.weather = undefined;
-    for (const subscription of this.subscriptions) {
-      subscription.unsubscribe();
-      console.log('reset subscription current', subscription);
-    }
   }
 
   ngOnDestroy() {
     this.reset();
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+      console.log('reset subscription current', subscription);
+    }
     console.log('ngOnDestroy WeatherNowComponent');
   }
 }

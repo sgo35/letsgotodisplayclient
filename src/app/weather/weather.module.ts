@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WeatherDailyComponent } from './weather-daily/weather-daily.component';
 import { WeatherNowComponent } from './weather-now/weather-now.component';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
+import { CityModule } from './city/city.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { WeatherForecastComponent } from './weather-forecast/weather-forecast.co
   , imports: [
     CommonModule, BrowserAnimationsModule
     , HttpClientModule
+    , CityModule
     , MatCardModule, MatButtonModule, MatAutocompleteModule, MatInputModule
   ]
   // , entryComponents: [

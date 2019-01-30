@@ -3,7 +3,7 @@ import { City, CityImpl } from '../interfaces/city.interface';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 import { CityService } from '../city/services/city.service';
-import { Page } from '../interfaces/page.interface';
+import { Page } from '../../interfaces/page.interface';
 
 @Component({
   selector: 'app-city',

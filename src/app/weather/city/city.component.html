@@ -1,0 +1,34 @@
+<form>
+  <div class="actions"
+    [formGroup]="formGroup">
+    <mat-form-field class="city">
+      <input matInput
+        type="text"
+        placehoder="Saisissez le ou les mot-clés"
+        formControlName="city"
+        [matAutocomplete]="auto">
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete"
+      [displayWith]="displayFn">
+      <mat-option *ngIf="isLoading"
+        class="is-loading">
+        <mat-spinner diameter="20"></mat-spinner>
+      </mat-option>
+      <ng-container *ngIf="!isLoading">
+        <mat-option *ngFor="let city of filteredCities"
+          [value]="city">
+          <span>{{ city.name }}</span>
+          <small> | ID: {{city.id}}</small>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+    <button mat-raised-button
+      color="primary"
+      (click)="update()"
+      class="btn btn-success search">
+      <i class="fas fa-search-location"></i>&nbsp;Rechercher
+    </button>
+  </div>
+  <div>Vous avez sélectionné : {{formGroup.get('city').value | json}}</div>
+</form>

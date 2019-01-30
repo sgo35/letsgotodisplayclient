@@ -1,0 +1,7 @@
+.actions {
+    display: inline;
+}
+.actions .city {
+    min-width: 300px;
+    padding-right: 10px;
+}

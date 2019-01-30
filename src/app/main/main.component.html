@@ -1,5 +1,4 @@
 <form>
-  <app-city (change)="changeCity($event)"></app-city>
   <div class="flex-container">
     <!-- <div class="news">
       <h2>Actualité</h2>
@@ -56,16 +55,46 @@
     </button> -->
       <p>Menu</p>
       <div>Coucou c'est le panneau de config</div>
-      <button matButton
-        (click)="addWidget()">Ajouter cadre</button>
+      <ul class="noPuce widgetMenu">
+        <li>
+          <mat-slide-toggle class="editableMode"
+            [checked]="editable"
+            [disabled]="false"
+            (change)="onActivateEdit($event.checked)">Mode Edition
+          </mat-slide-toggle>
+        </li>
+        <li>
+          <button mat-raised-button
+            [disabled]="!editable"
+            (click)="addWidget('WeatherComponent')">Météo</button>
+        </li>
+        <li>
+          <button mat-raised-button
+            [disabled]="!editable"
+            (click)="addWidget('NewsComponent')">Actualité</button>
+        </li>
+        <li>
+          <button mat-raised-button
+            [disabled]="!editable"
+            (click)="addWidget('MenuCantineComponent')">Menu cantine</button>
+        </li>
+      </ul>
+      <button mat-raised-button
+        class="fixedbutton"
+        color="warn"
+        (click)="sidenav.toggle()"><i class="fas fa-sign-out-alt"></i>&nbsp;Fermer</button>
+
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <button mat-icon-button
-        (click)="sidenav.toggle()">
-        <i class="fas fa-angle-double-right"
-          [class.fa-rotate-180]="sidenavOpened"></i>
-      </button>
+      <div class="phantom fixedbutton">
+        <button mat-icon-button
+          class=""
+          (click)="sidenav.toggle()">
+          <i class="fas fa-angle-double-right"
+            [class.fa-rotate-180]="sidenavOpened"></i>
+        </button>
+      </div>
       <div>
         <ngx-widget-grid #grid
           [rows]="6"
@@ -74,21 +103,29 @@
           [showGrid]="true"
           (widgetPositionChange)="onWidgetChange($event)">
           <ngx-widget *ngFor="let widget of widgets;let $index = index;"
-            [position]="widget"
+            [position]="widget.rectangle"
             [movable]="editable"
             [resizable]="editable"
             [swapOnMove]="swapWidgets">
             <div style="height:100%;width:100%; display:flex;">
-              <div class="my-widgets"
-                style="height:100%;width:100%; padding:10px;"
-                [ngStyle]="{'background-color':widget.color}">
+              <div class="scrollbar style-scroll"
+                [ngStyle]="{'background-color': widget.color}">
                 <mat-icon shape="trash"
                   class="clickable"
                   (click)="askDeleteWidget($index)"
                   *ngIf="editable"></mat-icon>
+
+                <em>{{ widget.component }}</em>
+
+                <!-- <iframe src="http://www.ville-bedee.fr/admin/upload/semaine6_2019_01.pdf"
+                  width="100%"
+                  height="100%"
+                  align="middle"></iframe> -->
                 <div class="weather">
                   <h2>Météo</h2>
-                  <em>Quel temps fait-il aujourd'hui ?</em>
+                  <em>{{ widget.component }}</em>
+                  <app-city (change)="changeCity($event)"></app-city>
+
                   <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
                     aria-label="Météo"
                     [value]="weatherMode">
@@ -98,7 +135,8 @@
                   </mat-button-toggle-group>
                 </div>
 
-                <app-weather #weatherComponent></app-weather>
+                <app-weather #weatherComponent
+                  [city]="city"></app-weather>
               </div>
             </div>
           </ngx-widget>

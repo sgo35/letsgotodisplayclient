@@ -1,7 +1,9 @@
-<div *ngIf="weather" class="weatherForecast">
-    <h2>
-        <i class="fas fa-map-marker-alt blue"></i> {{ city.name }} <span *ngIf="city?.country" class="country">[{{city.country}}]</span>
-      </h2>
+<div *ngIf="weather"
+  class="weatherForecast">
+  <h2>
+    <i class="fas fa-map-marker-alt blue"></i> {{ city.name }} <span *ngIf="city?.country"
+      class="country">[{{city.country}}]</span>
+  </h2>
   <div *ngFor="let item of weather.list; let i=index"
     class="flex-container">
     <mat-card>
@@ -24,7 +26,7 @@
         </h4>
         <div *ngIf="item.main.temp_min < item.main.temp_max">min : {{ item.main.temp_min | number:'1.0-1' }}°C | max
           : {{ item.main.temp_max | number:'1.0-1' }}°C</div>
-          {{ item | json }}
+        {{ item | json }}
       </mat-card-content>
       <mat-card-actions>
         <button mat-button>Détail...</button>

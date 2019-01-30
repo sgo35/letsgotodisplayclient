@@ -16,3 +16,79 @@
 .right {
     float: right;
 }
+
+ul.noPuce {
+    list-style: none;
+}
+
+.sidenav-container ul.noPuce {
+    list-style-type: none;
+    width: 200px;
+}
+   
+.sidenav-container ul.noPuce > li {
+    padding: 10px;
+    overflow: auto;
+}
+   
+.mat-raised-button {
+    width: 100%;
+}
+
+   
+.sidenav-container ul.noPuce > li hover {
+    background: #eee;
+    cursor: pointer;
+}
+
+.phantom {
+    opacity: 0.2;
+    /* float: left; */
+    z-index: 10000;
+}
+
+.phantom:hover {
+    opacity: 1;
+}
+
+.fixedbutton {
+    position: absolute;
+    bottom: 0px;
+    left: 0px; 
+}
+
+.scrollbar
+{
+	float: left;
+	background: transparent;
+    /* margin-bottom: 25px; */
+    /* height:98%; */
+    width:100%; 
+    padding:10px; 
+    overflow-y: scroll;
+}
+
+.style-scroll::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	background-color: transparent;
+	border-radius: 10px;
+}
+
+.style-scroll::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: transparent;
+}
+
+.style-scroll::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: transparent;
+	background-image: -webkit-gradient(linear,
+									   40% 0%,
+									   75% 84%,
+									   from(#4D4D4D55),
+									   to(#1D1D1D55),
+									   color-stop(.6,#5D5D5D55))
+}

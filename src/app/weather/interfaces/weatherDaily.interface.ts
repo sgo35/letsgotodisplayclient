@@ -1,4 +1,4 @@
-import { City } from 'src/app/interfaces/city.interface';
+import { City } from 'src/app/weather/interfaces/city.interface';
 
 export interface WeatherDaily {
   city: City;

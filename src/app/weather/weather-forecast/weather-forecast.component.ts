@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WeatherService } from '../services/weather.service';
 import { Weather, WeatherForecast } from '../interfaces/weatherForecast.interface';
-import { City } from 'src/app/interfaces/city.interface';
+import { City } from 'src/app/weather/interfaces/city.interface';
 import { WeatherModeEnum } from '../interfaces/weatherMode.enum';
 
 @Component({
@@ -28,7 +28,8 @@ export class WeatherForecastComponent implements OnInit, OnDestroy {
   // }
 
   search(city: City) {
-    this.weather = undefined;
+    this.city = city;
+    this.reset();
     console.log('search mode', WeatherModeEnum.Forecast, city);
     this.subscriptions.push(
       this.weatherService.getfindWeatherForecastByCity(city).subscribe(
