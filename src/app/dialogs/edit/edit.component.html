@@ -1,3 +1,31 @@
-<p>
-  edit works!
-</p>
+<div class="container">
+  <h3 mat-dialog-title>
+    <span>Configuration du widget</span>
+  </h3>
+
+  <form (ngSubmit)="submit()"
+    #formControl="ngForm">
+
+    <!-- <span>Blabla</span> -->
+    <div class="city">
+      <app-city name="city"
+        (onChange)="cityChanged($event)">
+      </app-city>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button
+        color="primary"
+        [type]="submit"
+        [disabled]="!isValid()"
+        (click)="submit()">
+        <span>Valider</span>
+      </button>
+      <button mat-raised-button
+        (click)="onNoClick()"
+        tabindex="-1">
+        <span>Annuler</span>
+      </button>
+    </div>
+  </form>
+</div>

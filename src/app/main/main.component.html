@@ -89,7 +89,6 @@
     <mat-sidenav-content>
       <div class="phantom fixedbutton">
         <button mat-icon-button
-          class=""
           (click)="sidenav.toggle()">
           <i class="fas fa-angle-double-right"
             [class.fa-rotate-180]="sidenavOpened"></i>
@@ -101,6 +100,7 @@
           [columns]="6"
           [highlightNextPosition]="false"
           [showGrid]="true"
+          (gridFull)="onGridFull($event)"
           (widgetPositionChange)="onWidgetChange($event)">
           <ngx-widget *ngFor="let widget of widgets;let $index = index;"
             [position]="widget.rectangle"
@@ -110,10 +110,26 @@
             <div style="height:100%;width:100%; display:flex;">
               <div class="scrollbar style-scroll"
                 [ngStyle]="{'background-color': widget.color}">
-                <mat-icon shape="trash"
+                <div class="tools topright"
+                  *ngIf="editable">
+                  <button mat-icon-button
+                    class="phantom"
+                    (click)="editWidget($index)">
+                    <i class="fa fa-pen"></i>
+                    <!-- <i class="fa fa-pencil-square-o"
+                      aria-hidden="true"></i> -->
+                  </button>
+                  <button mat-icon-button
+                    class="phantom"
+                    (click)="askDeleteWidget($index)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+
+                <!-- <mat-icon shape="trash"
                   class="clickable"
                   (click)="askDeleteWidget($index)"
-                  *ngIf="editable"></mat-icon>
+                  *ngIf="editable"></mat-icon> -->
 
                 <em>{{ widget.component }}</em>
 
@@ -123,7 +139,7 @@
                   align="middle"></iframe> -->
                 <div class="weather">
                   <h2>Météo</h2>
-                  <em>{{ widget.component }}</em>
+                  <em>{{ widget.component }} {{ $index }}</em>
                   <app-city (change)="changeCity($event)"></app-city>
 
                   <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"

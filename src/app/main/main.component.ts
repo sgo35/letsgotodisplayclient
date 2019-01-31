@@ -5,6 +5,9 @@ import { WeatherModeEnum } from '../weather/interfaces/weatherMode.enum';
 import { City } from '../weather/interfaces/city.interface';
 import { Rectangle, NgxWidgetGridComponent } from 'ngx-widget-grid';
 import { Widget } from '../interfaces/widget.interface';
+import { EditComponent } from '../dialogs/edit/edit.component';
+import { ModeEnum } from '../dialogs/edit/mode.enum';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-main',
@@ -38,13 +41,13 @@ export class MainComponent implements OnInit {
 
   sidenavOpened: boolean;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.sidenavOpened = false;
     // *** Pour test
-    // this.editable = true;
+    this.editable = true;
     this.addWidget('WeatherComponent');
     // ***
   }
@@ -95,10 +98,15 @@ export class MainComponent implements OnInit {
     }
   }
 
+  callConfigWidget(index) {
+    console.log('callConfigWidget', index, this.widgets[index]);
+
+  }
   askDeleteWidget(index) {
     console.log('deleting', index);
     this.widgets.splice(index, 1);
   }
+
 
   generateHslaColors(saturation?, lightness?, alpha?) {
     const h = this.getRandomIntInclusive(0, 360 * 10);
@@ -118,6 +126,36 @@ export class MainComponent implements OnInit {
   searchWeather(mode: WeatherModeEnum, _city: City) {
     console.log('searchWeather mode', mode, _city);
     this.weatherComponent.searchWeatherByCity(mode, _city);
+  }
+
+  public onGridFull(e) {
+    console.log(e);
+  }
+
+  editWidget(i: number, param: any) {
+    // index row is used just for debugging proposes and can be removed
+    console.log('widget', i, param);
+    const dialogRef = this.dialog.open(EditComponent, {
+      data: {
+        mode: ModeEnum.UPDATE,
+        param: { ...param }
+      }
+    });
+    // console.log('dialog UPDATE afterClose result data', this.filterService.getDialogData());
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('dialogRef.afterClosed', result);
+      // if (result === 1 && this.widgetService.getDialogData()) {
+      //   const _paramTmp: any = this.widgetService.getDialogData().param as any;
+      //   const data = [];
+      //   this.refreshWidget(data);
+      // }
+    });
+
+  }
+
+  refreshWidget(data: any) {
+    console.log('refreshWidget', data);
   }
 
 }
