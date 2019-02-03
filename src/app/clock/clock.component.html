@@ -1,4 +1,4 @@
 <div class="clock">
-  {{ now | date: pattern ? pattern :'EEEE d MMMM yyyy HH:mm:ss'}}
+  <span class="day">{{ now | date: pattern ? pattern : 'EEEE d MMMM yyyy'}}</span>
+  <span class="time">{{ now | date: pattern ? pattern : 'HH\'h\'mm'}}</span>
 </div>
-

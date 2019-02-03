@@ -1,3 +1,6 @@
 .header {
-    background-color: #0695;
+    background-color: #00669955;
+    color: rgba(255, 255, 255, 0.60);
+    padding: 2px 15px;
+    /* border-radius: 5px; */
 }

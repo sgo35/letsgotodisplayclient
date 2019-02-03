@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DefautService } from './services/defaut.service';
+import { WidgetService } from './widget.service';
 
-describe('DefautService', () => {
+describe('WidgetService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: DefautService = TestBed.get(DefautService);
+    const service: WidgetService = TestBed.get(WidgetService);
     expect(service).toBeTruthy();
   });
 });

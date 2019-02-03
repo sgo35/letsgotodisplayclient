@@ -1,0 +1,72 @@
+{
+    "widget": {
+        "pages": {
+            "number": 1,
+            "tempo": 1
+        },
+        "home": [
+            {
+                "key": "weather"
+            }
+        ]
+    },
+    "componentConfig": [
+        {
+            "key": "weather",
+            "name": "weatherComponent",
+            "label": "Météo",
+            "placeholder": "",
+            "params": {
+                "city": "Bedee"
+            }
+        },
+        {
+            "key": "news",
+            "name": "newsComponent",
+            "label": "Actualité",
+            "placeholder": ""
+        },
+        {
+            "key": "canteen",
+            "name": "canteenComponent",
+            "label": "Menu de la cantine",
+            "placeholder": ""
+        },
+        {
+            "key": "transport",
+            "name": "transportComponent",
+            "label": "Transport",
+            "placeholder": ""
+        },
+        {
+            "key": "events",
+            "name": "eventsComponent",
+            "label": "Evénement",
+            "placeholder": ""
+        },
+        {
+            "key": "agenda",
+            "name": "agendaComponent",
+            "label": "Agenda",
+            "placeholder": ""
+        },
+        {
+            "key": "movie",
+            "name": "movieComponent",
+            "label": "Vidéo",
+            "placeholder": ""
+        },
+        {
+            "key": "tourism",
+            "name": "tourismComponent",
+            "label": "Tourisme",
+            "placeholder": ""
+        },
+        {
+            "key": "stockExchange",
+            "name": "stockExchangeComponent",
+            "label": "Bourse",
+            "placeholder": ""
+        }
+    ]
+}

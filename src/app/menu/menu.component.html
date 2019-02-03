@@ -1,0 +1,12 @@
+<div>
+  <ul class="noPuce"
+    *ngFor="let menu of getWidgetList()">
+    <li>
+      <button mat-raised-button
+        [title]="menu | json"
+        class="widgetMenu"
+        [disabled]="disabled"
+        (click)="onActionWidget(menu)">{{ menu.label }}</button>
+    </li>
+  </ul>
+</div>

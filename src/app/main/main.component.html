@@ -1,6 +1,6 @@
 <form>
-  <div class="flex-container">
-    <!-- <div class="news">
+  <!-- <div class="flex-container"> -->
+  <!-- <div class="news">
       <h2>Actualité</h2>
       <mat-button-toggle-group #newsGroup="matButtonToggleGroup"
       aria-label="Actualité"
@@ -10,7 +10,7 @@
         <mat-button-toggle value="week">sur 7 jours</mat-button-toggle>
       </mat-button-toggle-group>
     </div> -->
-  </div>
+  <!-- </div> -->
 
   <!-- <mat-accordion>
     <mat-expansion-panel>
@@ -47,14 +47,10 @@
   <mat-sidenav-container class="sidenav-container"
     autosize>
     <mat-sidenav #sidenav
+      class="sidenavPanel"
       mode="side"
       (openedChange)="onPositionChanged($event)">
-      <!-- <button mat-icon-button class="right"
-      (click)="sidenav.toggle()">
-      <i class="fas fa-angle-double-right"></i>
-    </button> -->
-      <p>Menu</p>
-      <div>Coucou c'est le panneau de config</div>
+      <p>Menu d'édition</p>
       <ul class="noPuce widgetMenu">
         <li>
           <mat-slide-toggle class="editableMode"
@@ -63,31 +59,30 @@
             (change)="onActivateEdit($event.checked)">Mode Edition
           </mat-slide-toggle>
         </li>
+      </ul>
+
+      <app-menu [config]="config"
+        [disabled]="!editable || isFullScreen"
+        (actionWidget)="addWidget($event)"></app-menu>
+      <ul class="noPuce fixedbottom">
         <li>
           <button mat-raised-button
+            class="widgetMenu"
             [disabled]="!editable"
-            (click)="addWidget('WeatherComponent')">Météo</button>
+            (click)="resetWidgets()"><i class="fas fa-eraser"></i>&nbsp;Réinitialiser</button>
         </li>
         <li>
           <button mat-raised-button
-            [disabled]="!editable"
-            (click)="addWidget('NewsComponent')">Actualité</button>
-        </li>
-        <li>
-          <button mat-raised-button
-            [disabled]="!editable"
-            (click)="addWidget('MenuCantineComponent')">Menu cantine</button>
+            class="widgetMenu"
+            color="warn"
+            (click)="sidenav.toggle()"><i class="fas fa-sign-out-alt"></i>&nbsp;Fermer</button>
         </li>
       </ul>
-      <button mat-raised-button
-        class="fixedbutton"
-        color="warn"
-        (click)="sidenav.toggle()"><i class="fas fa-sign-out-alt"></i>&nbsp;Fermer</button>
 
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <div class="phantom fixedbutton">
+      <div class="phantom fixedbottom">
         <button mat-icon-button
           (click)="sidenav.toggle()">
           <i class="fas fa-angle-double-right"
@@ -99,11 +94,11 @@
           [rows]="6"
           [columns]="6"
           [highlightNextPosition]="false"
-          [showGrid]="true"
+          [showGrid]="showGrid"
           (gridFull)="onGridFull($event)"
           (widgetPositionChange)="onWidgetChange($event)">
           <ngx-widget *ngFor="let widget of widgets;let $index = index;"
-            [position]="widget.rectangle"
+            [position]="widget.position"
             [movable]="editable"
             [resizable]="editable"
             [swapOnMove]="swapWidgets">
@@ -131,15 +126,18 @@
                   (click)="askDeleteWidget($index)"
                   *ngIf="editable"></mat-icon> -->
 
-                <em>{{ widget.component }}</em>
+                <em>{{ widget?.componentConfig?.name }} (id.{{ $index }}) <span *ngIf="widget.text">: {{ widget.text }}
+                  </span></em>
 
                 <!-- <iframe src="http://www.ville-bedee.fr/admin/upload/semaine6_2019_01.pdf"
                   width="100%"
                   height="100%"
                   align="middle"></iframe> -->
-                <div class="weather">
-                  <h2>Météo</h2>
-                  <em>{{ widget.component }} {{ $index }}</em>
+                <!-- <div class="weather"
+                  *ngIf="widget.componentConfig.name === 'WeatherComponent'">
+                  <h2 *ngIf="widget?.componentConfig?.label">
+                    {{ widget.componentConfig.label }}</h2>
+                  <em>{{ widget?.componentConfig?.placeholder }}</em>
                   <app-city (change)="changeCity($event)"></app-city>
 
                   <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
@@ -150,38 +148,12 @@
                     <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
                   </mat-button-toggle-group>
                 </div>
-
                 <app-weather #weatherComponent
-                  [city]="city"></app-weather>
+                  [city]="city"></app-weather> -->
               </div>
             </div>
           </ngx-widget>
-
-
-
-          <!-- <ngx-widget [(position)]="rectangleDefault"
-            [movable]="true"
-            [resizable]="true">
-            <div style="height:100%;width:100%; display:flex;">
-              <div style="height:100%;width:100%; padding:10px; background-color: rgb(140, 198, 0);">
-                <div class="weather">
-                  <h2>Météo</h2>
-                  <em>Quel temps fait-il aujourd'hui ?</em>
-                  <mat-button-toggle-group #weatherGroup="matButtonToggleGroup"
-                    aria-label="Météo"
-                    [value]="weatherMode">
-                    <mat-button-toggle value="{{ weatherModeEnum.Current }}">Aujourd'hui</mat-button-toggle>
-                    <mat-button-toggle value="{{ weatherModeEnum.Forecast }}">toutes les 3 heures</mat-button-toggle>
-                    <mat-button-toggle value="{{ weatherModeEnum.Daily }}">sur 7 jours</mat-button-toggle>
-                  </mat-button-toggle-group>
-                </div>
-
-                <app-weather #weatherComponent></app-weather>
-              </div>
-            </div>
-          </ngx-widget> -->
         </ngx-widget-grid>
-
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

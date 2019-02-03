@@ -4,3 +4,12 @@
 body {
     font-family: 'Roboto';
 }
+
+ul.noPuce {
+    list-style-type: none;
+    padding-inline-start: 15px;
+}
+
+.widgetMenu {
+    width: 150px;
+}

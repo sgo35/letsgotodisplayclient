@@ -6,7 +6,9 @@ declare const require: any;
 export const environment = {
   production: false,
   version: require('../../package.json').version,
-  apiRestUrl: 'http://localhost:8080/api'
+  apiRestUrl: 'http://localhost:8080/api',
+  widgetRestUrl: '/assets/json/widget.json',
+  widgets: ['weather', 'news', 'canteen', 'transport', 'event', 'agenda', 'movie', 'tourism', 'stockExchange']
 };
 
 /*

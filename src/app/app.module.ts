@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RestangularModule } from 'ngx-restangular';
 import { restangularConfigFactory } from './rest-configuration';
@@ -14,8 +14,13 @@ import { HeaderModule } from './header/header.module';
 import { MainModule } from './main/main.module';
 
 import { AppComponent } from './app.component';
+import { WidgetService } from './services/widget.service';
 
 registerLocaleData(localeFr, 'fr');
+
+// export function widgetServiceFactory(provider: WidgetService) {
+//   return () => provider.load();
+// }
 
 @NgModule({
   declarations: [
@@ -25,13 +30,16 @@ registerLocaleData(localeFr, 'fr');
     BrowserModule, HttpClientModule
     , BrowserAnimationsModule
     , RestangularModule.forRoot([RestConfigurationService], restangularConfigFactory)
-    , HeaderModule, MainModule
+    , HeaderModule
+    , MainModule
   ],
   providers: [
     AppService
+    , WidgetService
     , RestConfigurationService
     , { provide: LOCALE_ID, useValue: 'fr' }
   ],
   bootstrap: [AppComponent]
 })
+// , { provide: APP_INITIALIZER, useFactory: widgetServiceFactory, deps: [WidgetService], multi: true }
 export class AppModule { }

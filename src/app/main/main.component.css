@@ -13,19 +13,17 @@
 .sidenav-container {
     height: 800px;
 }
+.editableMode {
+    font-size: small;
+}
 .right {
     float: right;
 }
 
-ul.noPuce {
-    list-style: none;
-}
-
-.sidenav-container ul.noPuce {
-    list-style-type: none;
+.sidenavPanel {
     width: 200px;
 }
-   
+
 .sidenav-container ul.noPuce > li {
     padding: 10px;
     overflow: auto;
@@ -54,7 +52,7 @@ ul.noPuce {
     opacity: 1;
 }
 
-.fixedbutton {
+.fixedbottom {
     position: absolute;
     bottom: 0px;
     left: 0px; 

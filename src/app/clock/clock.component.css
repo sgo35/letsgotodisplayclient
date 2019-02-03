@@ -1,4 +1,14 @@
 .clock {
-    color: #069;
+    font-weight: bolder;
+}
+
+.day {
     font-size: small;
+    color: #FFF;
+}
+
+.time {
+    float: right;
+    color: yellow;
+    font-size: medium;
 }
