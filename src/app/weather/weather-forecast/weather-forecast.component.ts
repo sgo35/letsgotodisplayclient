@@ -4,6 +4,7 @@ import { WeatherService } from '../services/weather.service';
 import { Weather, WeatherForecast } from '../interfaces/weatherForecast.interface';
 import { City } from 'src/app/weather/interfaces/city.interface';
 import { WeatherModeEnum } from '../interfaces/weatherMode.enum';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-weather-forecast',
@@ -12,15 +13,23 @@ import { WeatherModeEnum } from '../interfaces/weatherMode.enum';
 })
 export class WeatherForecastComponent implements OnInit, OnDestroy {
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(private weatherService: WeatherService, private _clipboardService: ClipboardService) { }
 
-  @Input() city: City;
+  _city: City;
+  @Input() set city(_city: City) { this._city = _city; }
+  get city() { return this._city; }
+
   weather: WeatherForecast;
   subscriptions: Array<Subscription>;
 
   ngOnInit() {
     this.subscriptions = new Array<Subscription>();
     // this.search(this.city);
+  }
+
+  copy(widget: WeatherForecast) {
+    console.log('copy widget', widget);
+    this._clipboardService.copyFromContent(JSON.stringify(widget));
   }
 
   // ngOnChanges(event) {
@@ -43,15 +52,15 @@ export class WeatherForecastComponent implements OnInit, OnDestroy {
       ));
   }
   getDateTime(dt): Date {
-    return this.weatherService.getDateTime(dt);
-  }
-
-  isDateDiff(dt_before: number, dt_current: number): boolean {
-    return this.weatherService.isDateDiff(dt_before, dt_current);
+    return WeatherService.getDateTime(dt);
   }
 
   getWeatherIconUrl(weather: Weather) {
     return this.weatherService.getWeatherIconUrl(weather);
+  }
+
+  isDateDiff(dt_before: number, dt_current: number): boolean {
+    return WeatherService.isDateDiff(dt_before, dt_current);
   }
 
   reset() {

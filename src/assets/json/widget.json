@@ -13,58 +13,59 @@
     "componentConfig": [
         {
             "key": "weather",
-            "name": "weatherComponent",
+            "component": "WeatherComponent",
             "label": "Météo",
             "placeholder": "",
             "params": {
-                "city": "Bedee"
+                "city": "Bedee",
+                "mode": 0
             }
         },
         {
             "key": "news",
-            "name": "newsComponent",
+            "component": "NewsComponent",
             "label": "Actualité",
             "placeholder": ""
         },
         {
             "key": "canteen",
-            "name": "canteenComponent",
+            "component": "CanteenComponent",
             "label": "Menu de la cantine",
             "placeholder": ""
         },
         {
             "key": "transport",
-            "name": "transportComponent",
+            "component": "TransportComponent",
             "label": "Transport",
             "placeholder": ""
         },
         {
             "key": "events",
-            "name": "eventsComponent",
+            "component": "EventsComponent",
             "label": "Evénement",
             "placeholder": ""
         },
         {
             "key": "agenda",
-            "name": "agendaComponent",
+            "component": "AgendaComponent",
             "label": "Agenda",
             "placeholder": ""
         },
         {
             "key": "movie",
-            "name": "movieComponent",
+            "component": "MovieComponent",
             "label": "Vidéo",
             "placeholder": ""
         },
         {
             "key": "tourism",
-            "name": "tourismComponent",
+            "component": "TourismComponent",
             "label": "Tourisme",
             "placeholder": ""
         },
         {
             "key": "stockExchange",
-            "name": "stockExchangeComponent",
+            "component": "StockExchangeComponent",
             "label": "Bourse",
             "placeholder": ""
         }

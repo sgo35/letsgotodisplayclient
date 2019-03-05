@@ -1,0 +1,31 @@
+.blue {
+    color: #069;
+  }
+
+  .bold{
+    font-weight: bolder;
+  }
+
+  .picto {
+      width: 100%;
+      line-height: 20px;
+  }
+
+  .noRain {
+      color: #999;
+  }
+.cellDay {
+    color: #069;
+    font-weight: bolder;
+    font-size: large;
+    background-color: whitesmoke;
+    margin-right: 10px;
+    width: auto;
+}
+.underline {
+  border-bottom: 5px solid white;
+}
+.row, .cell {
+  height: 100%;
+  width: 100%;
+}

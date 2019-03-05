@@ -39,25 +39,6 @@
     cursor: pointer;
 }
 
-.phantom {
-    opacity: 0.2;
-    /* float: left; */
-    z-index: 10000;
-}
-
-.topright {
-    float: right;
-}
-.phantom:hover {
-    opacity: 1;
-}
-
-.fixedbottom {
-    position: absolute;
-    bottom: 0px;
-    left: 0px; 
-}
-
 .scrollbar
 {
 	float: left;

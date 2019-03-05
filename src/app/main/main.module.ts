@@ -18,26 +18,35 @@ import { EditModule } from '../dialogs/edit/edit.module';
 import { MenuModule } from '../menu/menu.module';
 import { WidgetService } from '../services/widget.service';
 import { HttpClientModule } from '@angular/common/http';
+import { WidgetComponent } from '../widget/widget.component';
+import { WidgetModule } from '../widget/widget.module';
+import { WidgetDirective } from '../widget/widget.directive';
+import { ClipboardModule } from 'ngx-clipboard';
 
 
 
 @NgModule({
-  declarations: [MainComponent],
+  declarations: [
+    MainComponent
+    , WidgetDirective
+  ],
   imports: [
     CommonModule
     , FormsModule, ReactiveFormsModule
     , HttpClientModule
     , MatButtonModule, MatButtonToggleModule, MatSidenavModule, MatIconModule, MatSlideToggleModule, MatDialogModule
+    , ClipboardModule
     , EditModule
     , NgxWidgetGridModule
     , MenuModule
     , CityModule
     , WeatherModule
+    , WidgetModule
   ]
   , providers: [WidgetService]
+  , entryComponents: [WidgetComponent]
   , exports: [
     MainComponent
-  ],
-  entryComponents: [NgxWidgetComponent]
+  ]
 })
 export class MainModule { }

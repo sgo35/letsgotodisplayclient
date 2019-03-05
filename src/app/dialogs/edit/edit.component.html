@@ -7,9 +7,11 @@
     #formControl="ngForm">
 
     <!-- <span>Blabla</span> -->
-    <div class="city">
+    <div *ngIf="city"
+      class="city">
       <app-city name="city"
-        (onChange)="cityChanged($event)">
+        [city]="city"
+        (change)="cityChanged($event)">
       </app-city>
     </div>
 
@@ -22,7 +24,7 @@
         <span>Valider</span>
       </button>
       <button mat-raised-button
-        (click)="onNoClick()"
+        (click)="close()"
         tabindex="-1">
         <span>Annuler</span>
       </button>

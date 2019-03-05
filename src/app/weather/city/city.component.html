@@ -6,7 +6,8 @@
         type="text"
         placehoder="Saisissez le ou les mot-clés"
         formControlName="city"
-        [matAutocomplete]="auto">
+        [matAutocomplete]="auto"
+        (focus)="onFocus()">
     </mat-form-field>
 
     <mat-autocomplete #auto="matAutocomplete"
@@ -16,19 +17,20 @@
         <mat-spinner diameter="20"></mat-spinner>
       </mat-option>
       <ng-container *ngIf="!isLoading">
-        <mat-option *ngFor="let city of filteredCities"
-          [value]="city">
-          <span>{{ city.name }}</span>
-          <small> | ID: {{city.id}}</small>
+        <mat-option *ngFor="let _city of filteredCities"
+          [value]="_city">
+          <span>{{ _city.name }}</span>
+          <small> | ID: {{_city.id}}</small>
         </mat-option>
       </ng-container>
     </mat-autocomplete>
-    <button mat-raised-button
+    <!-- <button mat-raised-button
+      [hidden]="true"
       color="primary"
       (click)="update()"
       class="btn btn-success search">
       <i class="fas fa-search-location"></i>&nbsp;Rechercher
-    </button>
+    </button> -->
   </div>
-  <div>Vous avez sélectionné : {{formGroup.get('city').value | json}}</div>
+  <!-- <div>Vous avez sélectionné : {{formGroup.get('city').value | json}}</div> -->
 </form>

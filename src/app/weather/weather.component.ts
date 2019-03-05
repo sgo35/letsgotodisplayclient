@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { WeatherService } from './services/weather.service';
@@ -8,44 +8,91 @@ import { WeatherModeEnum } from './interfaces/weatherMode.enum';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { WeatherNowComponent } from './weather-now/weather-now.component';
 import { WeatherDailyComponent } from './weather-daily/weather-daily.component';
+import { Config, Param } from '../interfaces/ComponentConfig.class';
+import { WidgetService } from '../services/widget.service';
+import { ModeEnum } from '../dialogs/edit/mode.enum';
 
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.css']
 })
-export class WeatherComponent implements OnInit, OnDestroy {
+export class WeatherComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  subscriptions: Array<Subscription>;
-  weatherModeEnum = WeatherModeEnum;
-
-  @Input() city: City;
-  @Input() mode: WeatherModeEnum = WeatherModeEnum.Forecast;
-  // _city: City;
-  // @Input() set city(city: City) {
-  //   this._city = city;
+  city: City;
+  mode: WeatherModeEnum = WeatherModeEnum.Forecast;
+  // @Input() config: Config;
+  // @Input() Params: Param[];
+  // _config: Config;
+  // @Input() set config(config: Config) {
+  //   this._config = config;
   // }
-  // get city(): City { return this._city; }
+  // get config(): Config { return this._config; }
+  // @Input() config: Config;
+  _params: Param[];
+  @Input() set params(params: Param[]) {
+    this._params = params;
+    if (params && params['city'] && params['mode']) {
+      this.updateConfig();
+    }
+  }
+  get params(): Param[] { return this._params; }
+
   @ViewChild('weatherForecast') weatherForecast: WeatherForecastComponent;
   @ViewChild('weatherDaily') weatherDaily: WeatherDailyComponent;
   @ViewChild('weatherNow') weather: WeatherNowComponent;
+  subscriptions: Array<Subscription>;
+  weatherModeEnum = WeatherModeEnum;
 
-  // searchCityControl: FormControl = new FormControl();
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(private weatherService: WeatherService, private widgetService: WidgetService) {
+  }
 
   ngOnInit() {
     this.init();
+  }
+
+  ngAfterViewInit() {
+    this.updateConfig();
   }
 
   init() {
     this.subscriptions = new Array<Subscription>();
   }
 
+  updateConfig() {
+    console.log('updateConfig config', this.params);
+    if (this.params['mode']) {
+      this.mode = this.params['mode'];
+    } else {
+      this.mode = WeatherModeEnum.Forecast;
+    }
+    if (this.params['city']) {
+      this.city = new CityImpl(this.params['city'], 'FR');
+      this.searchWeatherByCity(this.mode, this.city);
+    }
+    //   this.widgetService.params$.subscribe(p => {
+    //   if (p) {
+    //     console.log('WeatherCompoenent update config', this.params, p['city'], p['mode'], p);
+    //     let paramTmp = p['city'];
+    //     if (paramTmp) {
+    //       this.city = new CityImpl(paramTmp, 'FR');
+    //     }
+    //     paramTmp = p['mode'];
+    //     if (paramTmp) {
+    //       this.mode = paramTmp;
+    //     }
+    //     if (this.city) {
+    //       this.searchWeatherByCity(this.mode, this.city);
+    //     }
+    //   }
+    // }
+    // );
+    console.log('WeatherComponent init city, mode', this.city, this.mode);
+
+  }
+
   searchWeatherByCity(mode: WeatherModeEnum, city: City, nbDay?: number) {
-    // this.init();
-    this.mode = mode;
-    this.city = city;
     console.log('mode city', mode, city);
     switch (+mode) {
       case WeatherModeEnum.Forecast:

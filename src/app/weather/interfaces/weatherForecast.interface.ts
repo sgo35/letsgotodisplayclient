@@ -4,11 +4,11 @@ export interface WeatherForecast {
     cod: string;
     message: number;
     cnt: number;
-    list: List[];
+    list: WeatherList[];
     city: City;
 }
 
-export interface List {
+export interface WeatherList {
     dt: number;
     main: Main;
     weather: Weather[];

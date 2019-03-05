@@ -5,7 +5,6 @@ import { RestangularModule } from 'ngx-restangular';
 import { restangularConfigFactory } from './rest-configuration';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
 
 import { RestConfigurationService } from './services/rest-configuration.service';
 import { AppService } from './services/app.service';
@@ -15,7 +14,9 @@ import { MainModule } from './main/main.module';
 
 import { AppComponent } from './app.component';
 import { WidgetService } from './services/widget.service';
+import { WidgetComponent } from './widget/widget.component';
 
+import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr, 'fr');
 
 // export function widgetServiceFactory(provider: WidgetService) {
@@ -39,7 +40,9 @@ registerLocaleData(localeFr, 'fr');
     , RestConfigurationService
     , { provide: LOCALE_ID, useValue: 'fr' }
   ],
+  entryComponents: [WidgetComponent],
   bootstrap: [AppComponent]
 })
 // , { provide: APP_INITIALIZER, useFactory: widgetServiceFactory, deps: [WidgetService], multi: true }
 export class AppModule { }
+

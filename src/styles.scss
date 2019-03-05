@@ -1,5 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url( 'https://fonts.googleapis.com/css?family=Roboto:400,700|Material+Icons');
+
 /* You can add global styles to this file, and also import other style files */
 body {
     font-family: 'Roboto';
@@ -13,3 +14,23 @@ ul.noPuce {
 .widgetMenu {
     width: 150px;
 }
+
+.phantom {
+    opacity: 0.2;
+    /* float: left; */
+    z-index: 10000;
+}
+
+.topright {
+    float: right;
+}
+.phantom:hover {
+    opacity: 1;
+}
+
+.fixedbottom {
+    position: absolute;
+    bottom: 0px;
+    left: 0px; 
+}
+

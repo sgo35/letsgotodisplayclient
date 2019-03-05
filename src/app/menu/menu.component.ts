@@ -1,7 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit } from '@angular/core';
-import { IComponentConfig, ComponentConfig } from '../interfaces/ComponentConfig.class';
-import { WidgetEnum } from '../interfaces/widget.class';
-import { WidgetService } from '../services/widget.service';
+import { Config } from '../interfaces/ComponentConfig.class';
 
 @Component({
   selector: 'app-menu',
@@ -10,9 +8,9 @@ import { WidgetService } from '../services/widget.service';
 })
 export class MenuComponent implements OnInit, AfterViewInit {
 
-  @Output() actionWidget: EventEmitter<IComponentConfig> = new EventEmitter<IComponentConfig>();
+  @Output() actionWidget: EventEmitter<Config> = new EventEmitter<Config>();
   private loading = true;
-  @Input() config: IComponentConfig[];
+  @Input() config: Config[];
 
   private _disabled = false;
   @Input() set disabled(disabled: boolean) {
@@ -23,7 +21,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
     return this._disabled;
   }
 
-  constructor(private widgetService: WidgetService) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -33,32 +31,11 @@ export class MenuComponent implements OnInit, AfterViewInit {
     this.loading = false;
   }
 
-  // getComponentConfigByName(widgetName: string): IComponentConfig {
-  //   let _componentConfig: IComponentConfig;
-  //   console.log('getComponentConfigByName', event);
-  //   switch (widgetName) {
-  //     case WidgetEnum[WidgetEnum.weather]:
-  //       _componentConfig = new ComponentConfig('WeatherComponent', 'Météo', 'ville de Bédée');
-  //       break;
-  //     case WidgetEnum[WidgetEnum.news]:
-  //       _componentConfig = new ComponentConfig('NewsComponent', 'Actualité', 'ville de Bédée');
-  //       break;
-  //     case WidgetEnum[WidgetEnum.canteen]:
-  //       _componentConfig = new ComponentConfig('CanteenComponent', 'Menu de cantine', 'ville de Bédée');
-  //       break;
-  //     default:
-  //       _componentConfig = new ComponentConfig('OtherComponent', widgetName, '');
-  //       break;
-  //   }
-  //   return _componentConfig;
-  // }
-
   getWidgetList() {
     return this.config;
-    // return this.widgetService.getComponentsConfig();
   }
 
-  onActionWidget(event: IComponentConfig) {
+  onActionWidget(event: Config) {
     if (!this.loading) {
       console.log('onActionWidget');
       this.actionWidget.emit(event);

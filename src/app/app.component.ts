@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { WidgetService } from './services/widget.service';
-import { IComponentConfig } from './interfaces/ComponentConfig.class';
+import { Config } from './interfaces/ComponentConfig.class';
 import { environment } from '../environments/environment';
-import { WidgetEnum } from './interfaces/widget.class';
+import { WidgetEnum } from './interfaces/widget.interface';
 
 @Component({
   selector: 'app-root',
@@ -11,31 +11,29 @@ import { WidgetEnum } from './interfaces/widget.class';
 })
 export class AppComponent implements OnInit {
   title = 'letsgotodisplayclient';
-  config: IComponentConfig[];
+  configGroup: Config[];
 
   constructor(private widgetService: WidgetService) {
-    // this.widgetService.load();
-    // this.config = this.widgetService.getComponentsConfig();
-    // console.log('AppComponent loading');
   }
 
   ngOnInit() {
     this.widgetService.load().subscribe(data => {
       if (data && data.componentConfig) {
-        this.config = data.componentConfig.filter((cc: IComponentConfig) => {
+        this.configGroup = data.componentConfig.filter((cc: Config) => {
           return environment.widgets.indexOf(cc.key) !== -1;
         });
-        console.log('WidgetService constructor componentsConfig', this.config);
+        console.log('WidgetService constructor componentsConfig', this.configGroup);
       } else {
         console.error('load error', data);
       }
     });
   }
 
-  public getComponentConfig(widgetEnum: WidgetEnum): IComponentConfig {
-    console.log('getComponentConfig widgetEnum', WidgetEnum[widgetEnum], this.config);
-    const _component: IComponentConfig = this.config.find(c => c.key === WidgetEnum[widgetEnum]);
-    console.log('getComponentConfig widgetEnum', WidgetEnum[widgetEnum], _component);
+  public getConfig(widgetEnum: WidgetEnum): Config {
+    const _component: Config = this.configGroup.find(c => c.key === WidgetEnum[widgetEnum]);
+    if (!_component) {
+      console.error('getConfig widgetEnum not found', WidgetEnum[widgetEnum], widgetEnum);
+    }
     return _component;
   }
 

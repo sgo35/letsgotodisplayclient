@@ -33,3 +33,18 @@
   .blue {
     color: #069;
   }
+
+  .bold{
+    font-weight: bolder;
+  }
+
+  .oneLine {
+    display: inline-flex;
+    align-items: center;
+  }
+  .hour {
+    flex: 0 1 0;
+  }
+  .tools {
+    flex: 0 1 0;
+  }

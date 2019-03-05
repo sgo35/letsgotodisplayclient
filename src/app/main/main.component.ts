@@ -1,26 +1,31 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, Input } from '@angular/core';
+import {
+  Component, OnInit
+  , ViewChild, Input
+} from '@angular/core';
 
-import { WeatherComponent } from '../weather/weather.component';
 import { WeatherModeEnum } from '../weather/interfaces/weatherMode.enum';
 import { City } from '../weather/interfaces/city.interface';
-import { Rectangle, NgxWidgetGridComponent, NgxWidgetComponent } from 'ngx-widget-grid';
-import { Widget, IWidget, WidgetEnum } from '../interfaces/widget.class';
+import { Rectangle, NgxWidgetGridComponent } from 'ngx-widget-grid';
+import { IFrameWidget, WidgetEnum, FrameWidget } from '../interfaces/widget.interface';
 import { EditComponent } from '../dialogs/edit/edit.component';
 import { ModeEnum } from '../dialogs/edit/mode.enum';
 import { MatDialog } from '@angular/material';
-import { IComponentConfig } from '../interfaces/ComponentConfig.class';
-import { WidgetService } from '../services/widget.service';
+import { Config, Param } from '../interfaces/ComponentConfig.class';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit, AfterViewInit {
-  // @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
+export class MainComponent implements OnInit {
+  @Input() config: Config[];
   @ViewChild('grid') grid: NgxWidgetGridComponent;
-  @ViewChild('widgetcontainer', { read: ViewContainerRef }) entry: ViewContainerRef;
-  @Input() config: IComponentConfig[];
+  // @ViewChildren(WidgetComponent) widgetViewChildren: QueryList<WidgetComponent>;
+  // @ContentChildren('layout') _layout: ElementRef;
+  // @ViewChild(WidgetDirective) widgetDirective: WidgetDirective;
+  // @ViewChild('weatherComponent') weatherComponent: WeatherComponent;
+  // @ViewChild('widgetcontainer', { read: ViewContainerRef }) entry: ViewContainerRef;
 
   city: City;
   modeSelected: WeatherModeEnum;
@@ -30,11 +35,12 @@ export class MainComponent implements OnInit, AfterViewInit {
   // rectangleDefault: Rectangle = new Rectangle({ top: 2, left: 2, height: 3, width: 2 });
   rows = 6;
   cols = 6;
-  widgets: IWidget[] = [];
+  widgets: IFrameWidget[];
+  // widgets: NgxWidgetGridComponent;
   showGrid = false;
   swapWidgets = true;
   sidenavOpened = false;
-  componentRef: any;
+  // componentRef: any;
 
   private _editable = false;
   set editable(editable: boolean) {
@@ -55,25 +61,29 @@ export class MainComponent implements OnInit, AfterViewInit {
     return this._isFullScreen;
   }
 
-  constructor(public dialog: MatDialog
-    , private resolver: ComponentFactoryResolver
-    , private widgetService: WidgetService
+  constructor(
+    public dialog: MatDialog
+    , private _clipboardService: ClipboardService
   ) {
     // console.log('MainComponent', widgetService.getComponentsConfig());
   }
 
   ngOnInit() {
-  }
-
-  ngAfterViewInit() {
+    this.widgets = [];
+    // this.editable = true;
+    const _config: Config = this.config.find(c => c.key === WidgetEnum[WidgetEnum.weather]);
+    console.log('MainComponent ngOnInit', _config);
+    this.addWidget(_config);
     if (!this.grid.getNextPosition()) {
       this.isFullScreen = true;
     }
-    // *** Pour test
-    this.editable = true;
-    this.addWidget(this.config.find(c => c.key === WidgetEnum[WidgetEnum.weather]));
-    // ***
   }
+
+  copy(widget: IFrameWidget) {
+    console.log('copy widget', widget);
+    this._clipboardService.copyFromContent(JSON.stringify(widget));
+  }
+
   isActionnable() {
     return !this.editable && !this.isFullScreen;
   }
@@ -112,23 +122,27 @@ export class MainComponent implements OnInit, AfterViewInit {
   //   }
   // }
 
-  addWidget(_component: IComponentConfig) {
+  addWidget(_config: Config) {
     // console.log('addWidget widgetEnum', WidgetEnum[widgetEnum]);
 
-    // const _component: IComponentConfig = this.widgetService.getComponentConfig(widgetEnum);
+    // const _component: ComponentConfig = this.widgetService.getComponentConfig(widgetEnum);
     // new ComponentConfig('WeatherComponent', 'Météo', 'ville de Bédée');
     const _nextPosition: Rectangle = this.grid.getNextPosition();
     if (_nextPosition) {
-      // const _widget = { color: this.generateHslaColors(), ...nextPosition };
-      const _widget: IWidget = new Widget(_nextPosition, undefined, undefined, _component);
-      console.log('addWidget', _widget);
-      this.widgets.push(_widget);
+      _config.index = this.widgets.length > 0 ? Math.max(...this.widgets.map(w => w.config.index)) + 1 : 1;
+      const frameWidget: IFrameWidget = new FrameWidget(
+        _nextPosition
+        , { ..._config }
+        , _config && _config.params ? { ..._config.params } : _config.params
+      );
+      this.widgets.push(frameWidget);
+      console.log('MainComponent addWidget', frameWidget, _config);
     } else {
       console.warn('No Space Available!! ');
     }
   }
 
-  askDeleteWidget(index) {
+  askDeleteWidget(index: number) {
     console.log('deleting', index);
     this.widgets.splice(index, 1);
   }
@@ -150,42 +164,29 @@ export class MainComponent implements OnInit, AfterViewInit {
     console.log('onGridFull', e, this.isFullScreen);
   }
 
-  editWidget(i: number, param: any) {
+  editWidget(index: number) {
     // index row is used just for debugging proposes and can be removed
-    console.log('widget', i, param);
+    const params = this.widgets[index].params;
+    console.log('editWidget config, params', index, this.widgets[index].config, params);
     const dialogRef = this.dialog.open(EditComponent, {
       data: {
         mode: ModeEnum.UPDATE,
-        param: { ...param }
+        params: { ...params }
       }
     });
     // console.log('dialog UPDATE afterClose result data', this.filterService.getDialogData());
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('dialogRef.afterClosed', result);
-      // if (result === 1 && this.widgetService.getDialogData()) {
-      //   const _paramTmp: any = this.widgetService.getDialogData().param as any;
-      //   const data = [];
-      //   this.refreshWidget(data);
-      // }
+      if (result && result.params) {
+        this.widgets[index].params = result.params;
+      }
+      console.log('dialogRef.afterClosed', result, this.widgets[index]);
     });
 
   }
 
   refreshWidget(data: any) {
     console.log('refreshWidget', data);
-  }
-
-
-  createComponent(message) {
-    this.entry.clear();
-    const factory = this.resolver.resolveComponentFactory(NgxWidgetComponent);
-    this.componentRef = this.entry.createComponent(factory);
-    this.componentRef.instance.message = message;
-  }
-
-  destroyComponent() {
-    this.componentRef.destroy();
   }
 
 }

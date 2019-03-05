@@ -1,0 +1,103 @@
+<div *ngIf="groupWeather?.dataSource">
+
+  <mat-table #table
+    [dataSource]="groupWeather.dataSource">
+    <!-- <mat-header-row class="rowHTLigne"
+      *matHeaderRowDef="groupWeather.displayedColumns"></mat-header-row> -->
+    <mat-row class="row"
+      *matRowDef="let row; let isFirstRow = first; let isLastRow = last; columns: groupWeather.displayedColumns;">
+    </mat-row>
+    <!-- [class.first]="isFirstRow"
+  [class.last]="isLastRow" -->
+    <ng-container *ngFor="let column of groupWeather.columns; let colIndex = index;"
+      [matColumnDef]="column.columnDef">
+      <mat-header-cell *matHeaderCellDef>
+        <span>{{ column.header | titlecase }} </span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row; let rowIndex = index; let isFirstRow = first"
+        [ngSwitch]="weatherDayEnum[rowIndex]"
+        [class.cellDay]="colIndex === 0 && rowIndex === 0">
+        <span *ngSwitchCase="weatherDayEnum[weatherDayEnum.date]"
+          class="cell"
+          [title]="row[colIndex] | json">
+          <span *ngIf="colIndex === 0; else dataDate">
+            {{ row[colIndex] | uppercase }}
+          </span>
+          <ng-template #dataDate>
+            <!-- {{ getDateTime(row[colIndex]) | date: 'EEEE H\'h\'' | titlecase }} -->
+            {{ getDateTime(row[colIndex]) | date: 'H\'h\'' }}
+          </ng-template>
+        </span>
+        <span *ngSwitchCase="weatherDayEnum[weatherDayEnum.picto]"
+          [title]="row[colIndex] | json">
+          <span *ngIf="colIndex > 0; else dataPicto">
+            <!-- <img [src]="row[colIndex]"> -->
+            <!-- <div class="picto"
+              [style.background-image]="getWeatherIconUrl(row[colIndex])"></div> -->
+            <img class="picto"
+              [src]="getWeatherIconUrl(row[colIndex])">
+          </span>
+          <ng-template #dataPicto>
+            {{ row[colIndex] }}
+          </ng-template>
+        </span>
+        <span *ngSwitchCase="weatherDayEnum[weatherDayEnum.precipitation]"
+          class="cell"
+          [title]="row[colIndex] | json">
+          <span *ngIf="colIndex === 0; else dataPrecipitation">
+            {{ row[colIndex] }}
+          </span>
+          <ng-template #dataPrecipitation>
+            <span *ngIf="row[colIndex] > 0; else dataNoPrecipitation"
+              class="underline"
+              [style.border-bottom-color]="getColour(+row[colIndex],1.5,6)">{{ row[colIndex] }} mm</span>
+            <!-- <span *ngIf="row[colIndex] > 0; else dataNoPrecipitation">{{ row[colIndex] | number:'1.1-0' }} mm</span> -->
+            <ng-template #dataNoPrecipitation>
+              <span class="noRain">Pas de pluie</span>
+            </ng-template>
+          </ng-template>
+        </span>
+        <span *ngSwitchCase="weatherDayEnum[weatherDayEnum.temperature]"
+          class="cell"
+          [title]="row[colIndex] | json">
+          <span *ngIf="colIndex === 0; else dataTemperature">
+            {{ row[colIndex] }}
+          </span>
+          <ng-template #dataTemperature>
+            <!-- class="underline"
+              [style.border-bottom-color]="getColour(+row[colIndex],0,30)" -->
+            <span>
+              {{ row[colIndex] | number:'1.0-0' }} °C
+            </span>
+          </ng-template>
+        </span>
+        <span *ngSwitchCase="weatherDayEnum[weatherDayEnum.wind]"
+          class="cell"
+          [title]="row[colIndex] | json">
+          <span *ngIf="colIndex === 0; else dataVent">
+            {{ row[colIndex] }}
+          </span>
+          <ng-template #dataVent>
+            <span class="underline"
+              [style.border-bottom-color]="getColour(+row[colIndex].speed,8,30)">
+              {{ getWindKmHour(row[colIndex]) | number:'1.0-0' }} km/h
+            </span>
+          </ng-template>
+          <!-- <span *ngIf="row[colIndex]; else noResult;"
+            class="cell"
+            title="{{ row[colIndex] | json }}">
+            <span> {{ row[colIndex].speed }}km/h</span>
+          </span> -->
+        </span>
+        <span *ngSwitchDefault>
+        </span>
+      </mat-cell>
+    </ng-container>
+  </mat-table>
+  <mat-button-toggle-group #group="matButtonToggleGroup"
+    [(value)]="daySelected">
+    <mat-button-toggle [value]="idx"
+      (change)="selectionChanged($event)"
+      *ngFor="let day of groupWeather.keys; let idx = index;">{{day | titlecase}}</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>

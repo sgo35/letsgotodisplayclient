@@ -28,7 +28,7 @@ export class CityService extends AbstractTypedRestService<City> {
   getfindCityByName(cityName: string, country?: string): Observable<Page<City>> {
     const cityUri = encodeURIComponent(cityName);
     const params = { name: cityUri, country: country, page: '0', limit: '10' };
-    console.log('getfindCityByName ', params);
+    // console.log('getfindCityByName ', params);
     return this.getRestangular()
       .one('cities')
       .one('search')

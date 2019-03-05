@@ -35,11 +35,11 @@ export class WeatherNowComponent implements OnInit, OnDestroy {
         ));
   }
   getDateTime(dt): Date {
-    return this.weatherService.getDateTime(dt);
+    return WeatherService.getDateTime(dt);
   }
 
   isDateDiff(dt_before: number, dt_current: number): boolean {
-    return this.weatherService.isDateDiff(dt_before, dt_current);
+    return WeatherService.isDateDiff(dt_before, dt_current);
   }
 
   // getWeatherIconUrl(weather: Weather) {
